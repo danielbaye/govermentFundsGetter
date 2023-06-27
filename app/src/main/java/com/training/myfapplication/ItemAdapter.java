@@ -6,17 +6,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private List<Item> itemList;
-
+    private int[] colors;
     public ItemAdapter(List<Item> itemList) {
         this.itemList = itemList;
+    this.colors = ColorTemplate.PASTEL_COLORS;
     }
 
     @NonNull
@@ -31,14 +34,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         Item item = itemList.get(position);
         holder.name.setText(item.getName());
         holder.value.setText(item.getValue());
+        CardView cardView = holder.itemView.findViewById(R.id.card);
+        int colorIndex = position % colors.length;
+        int color = colors[colorIndex];
+//        holder.itemView.setDrawingCacheBackgroundColor(color);
+        cardView.setBackgroundColor(color);
 
-        // If it's the last item, display the pie chart
-        if (position == getItemCount() - 1) {
-            // Configure and load the pie chart using MPAndroidChart library
-//            PieChart pieChart = holder.pieChart;
-            // Add data and customize the pie chart as needed
-            // ...
-        }
     }
 
     @Override

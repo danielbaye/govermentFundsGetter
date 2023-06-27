@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_Menu">
+    app:startDestination="@id/SecondFragment">
 
 
 
@@ -24,9 +24,6 @@
         <action
             android:id="@+id/action_SecondFragment_to_main_Menu"
             app:destination="@id/main_Menu" />
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/main_Menu"

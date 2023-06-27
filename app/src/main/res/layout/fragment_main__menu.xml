@@ -46,6 +46,12 @@
                     android:layout_height="wrap_content"
                     android:text="חישוב מס" />
 
+                <Button
+                    android:id="@+id/Button4"
+                    android:layout_width="151dp"
+                    android:layout_height="wrap_content"
+                    android:text="הצעות המתמשים" />
+
             </LinearLayout>
 
             <RelativeLayout

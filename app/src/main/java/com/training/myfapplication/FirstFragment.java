@@ -65,10 +65,11 @@ private FragmentFirstBinding binding;
 
 //    private String [] currentYear;
 
-    private Stack<Map.Entry<String,String>> currentDepartmentCode;
+
 
     private ArrayList<String> titles;
 
+    private InfoHandler ih;
     private LineChart lineChart;
     private String [] currentMoney;
     private String [] currentQuery;
@@ -85,27 +86,17 @@ private FragmentFirstBinding binding;
     ) {
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
-//        String[] departmentArray = getResources().getStringArray(R.array.departments);
         String[] moneyArray = getResources().getStringArray(R.array.money);
         lineChart = binding.linechart;
         this.currentMoney = new String[]{moneyArray[0]};
-        currentDepartmentCode = new Stack<>();
-        currentDepartmentCode.push( new AbstractMap.SimpleEntry<>("00","הכל"));
+
         currentQuery = new String[]{""};
         currentYearlyAmount = new HashMap<>();
-
-
+        ih = new InfoHandler(url,getContext());
         userInput = Storage.getInstance().getValue("taxes");
         if (userInput<=0)
             userInput = 1000.0f;
-        infoGetter inf = new infoGetter();
-        String s = inf.getQueryResponse(url + "SELECT * FROM budget where code like '00'");
-        try {
-            yearlySum = inf.getJustBudgetByYear(s);
-        }
-        catch (RuntimeException e){
-            Toast.makeText(getContext() , "failed getJustBudgetByYear", Toast.LENGTH_SHORT).show();
-        }
+        yearlySum = ih.getJustBudgetByYear();
         currentYearlyAmount = yearlySum;
 
         initializeDepartmentsMap();
@@ -121,8 +112,9 @@ private FragmentFirstBinding binding;
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (initializationFlag){
                 String item =parent.getItemAtPosition(position).toString();
-                currentDepartmentCode.push( new AbstractMap.SimpleEntry<>(departmentsMap.get(item),item));
-                setDepartmentsMap(currentDepartmentCode.peek().getKey(),item);
+                ih.addDepartment(new AbstractMap.SimpleEntry<>(departmentsMap.get(item),item));
+
+                setDepartmentsMap(ih.peekDepartment().getKey(),item);
                 adapter.clear();
                 adapter.addAll(getDepartmentKeys());
                 adapter.notifyDataSetChanged();
@@ -216,19 +208,7 @@ private FragmentFirstBinding binding;
                 }
                 if (newText.length() == 3) {
 
-                    infoGetter ig = new infoGetter();
-                    String titlesString = ig.getQueryResponse(
-                            url + "SELECT title FROM budget where title" +
-                                    " like '%%" + newText + "%%' and (EXISTS (SELECT 1 " +
-                                    "FROM jsonb_array_elements(hierarchy) AS inner_array "+
-                                    "WHERE inner_array->>0 = '"+currentDepartmentCode.peek().getKey()+"') " +
-                                    "or code = '"+currentDepartmentCode.peek().getKey()+"')");
-
-                        try {titles = ig.getTitles(titlesString);
-                        }
-                        catch (RuntimeException e){
-                            Toast.makeText(getContext() , "failed getTitles", Toast.LENGTH_SHORT).show();
-                        }
+                    titles = ih.getTitles(newText);
                 }
                 ArrayList<String> searchTitles = titles;
                 if (newText.length() >= 3) {
@@ -251,16 +231,17 @@ private FragmentFirstBinding binding;
         ImageButton backButton = binding.upButton;
         backButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                if (currentDepartmentCode.size()>2) {
-                    currentDepartmentCode.pop();
-                    setDepartmentsMap(currentDepartmentCode.peek().getKey(),
-                            currentDepartmentCode.peek().getValue());
+                if (ih.sizeDepartment()>2) {
+                    ih.popDepartment();
+                    setDepartmentsMap(ih.peekDepartment().getKey(),
+                            ih.peekDepartment().getValue());
                     currentYearlyAmount = getSumMap();
                 }
                 else {
                     initializeDepartmentsMap();
-                    currentDepartmentCode.clear();
-                    currentDepartmentCode.push( new AbstractMap.SimpleEntry<>("00","הכל"));
+                    ih.clearDepartment();
+                    ih.addDepartment(new AbstractMap.SimpleEntry<>("00","הכל"));
+
                     currentYearlyAmount = yearlySum;
                     searchView.setIconified(true);
                     currentQuery[0]="";
@@ -289,61 +270,22 @@ private FragmentFirstBinding binding;
 
     private void initializeDepartmentsMap() {
 
-        infoGetter departmentsGetter = new infoGetter();
-        String t = departmentsGetter.getQueryResponse(url + "SELECT * FROM budget " +
-                "where parent isnull");
-        try {
-            this.departmentsMap= departmentsGetter.getDepartments(t);
-
-        }
-        catch (RuntimeException e){
-            Toast.makeText(getContext() , "failed getDepartments", Toast.LENGTH_SHORT).show();
-        }
-
+       this.departmentsMap = ih.getDepartments();
         this.departmentsMap.put("הכל","00");
     }
     private void setDepartmentsMap(String newDepartmentCode,String name) {
 
-        infoGetter departmentsGetter = new infoGetter();
-        String s = departmentsGetter.getQueryResponse(url + "SELECT children FROM budget " +
-                "where code " +departmentCode_translator(newDepartmentCode));
-        try {
-            this.departmentsMap= departmentsGetter.getDepartmentsFromChildren(s);
+        this.departmentsMap= ih.getDepartmentsFromChildren(newDepartmentCode);
 
-        }
-        catch (RuntimeException e){
-            Toast.makeText(getContext() , "failed getDepartmentsFromChildren", Toast.LENGTH_SHORT).show();
-        }
         this.departmentsMap.put(name,newDepartmentCode);
     }
 
 
     private Map<String, Float> getSumMap() {
-        infoGetter inf = new infoGetter();
-        boolean a = (currentQuery[0].length()==0 );
-//                && (currentDepartmentCode.size()==1 || currentDepartmentCode.peek().getKey().equals("00")));
-        String s = inf.getQueryResponse(url + "SELECT * FROM budget where title" +
-                " like '%%" + currentQuery[0] + "%%' " +
-                (a?
-                        "and code = '"+currentDepartmentCode.peek().getKey()+"'":
-                        ( "and (EXISTS (SELECT 1 " +
-                "FROM jsonb_array_elements(hierarchy) AS inner_array "+
-                "WHERE inner_array->>0 = '"+currentDepartmentCode.peek().getKey()+"') or"
-                +" code = '"+currentDepartmentCode.peek().getKey()+"')")));
-        try {
-            return inf.getSumByYear(s,a);
-        }
-        catch (RuntimeException e){
-            Toast.makeText(getContext() , "failed getSumByYear", Toast.LENGTH_SHORT).show();
-        }
-        return new HashMap<>();
-    }
+        Map<String,Float> sumMap = new HashMap<>();
 
-    private String departmentCode_translator(String s) {
-        if (s.equals(""))
-            return "isnull";
-        else
-            return "like '"+s+"'";
+        sumMap = ih.getSumByYear(currentQuery[0]);
+        return sumMap;
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -439,7 +381,7 @@ private FragmentFirstBinding binding;
         lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getContext(), hebrewValue(e.getY()) +" ,"+String.valueOf((int)e.getX()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), new usables().hebrewValue(e.getY(),currentMoney[0].charAt(0)) +" ,"+String.valueOf((int)e.getX()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -475,7 +417,7 @@ private FragmentFirstBinding binding;
         lineChart.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return hebrewValue(value);
+                return new usables().hebrewValue(value,currentMoney[0].charAt(0));
             }
         });
 
@@ -504,8 +446,8 @@ private FragmentFirstBinding binding;
 
         if (currentQuery[0].length()>0)
             chartTitle+= " על "+currentQuery[0];
-        if (currentDepartmentCode.size()>1)
-            chartTitle+= " מתוך סעיף "+currentDepartmentCode.peek().getValue();
+        if (ih.sizeDepartment()>1)
+            chartTitle+= " מתוך סעיף "+ih.peekDepartment().getValue();
         else
             chartTitle+= " מתוך הוצאות המדינה";
 
@@ -520,28 +462,6 @@ private FragmentFirstBinding binding;
         }
     }
 
-    public String hebrewValue(float value){
-        String string = "";
-        float newValue = value;
-        if (value >= 1000000000){
-            newValue = value / 1000000000;
-            string =  " מיליארד";
-        }
-        else if(value >=1000000) {
-            newValue = value / 1000000;
-            string =  " מיליון";
-        }
-        else if(value >=1000) {
-            newValue = value / 1000;
-            string =  " אלף";
-        }
-        if ( value <0)
-            newValue =-value;
-        int decimalPoint = Float.toString(newValue).indexOf(".");
-//        String format  = decimalPoint>=1? "%.0f":"%.1f";
-        String format  = decimalPoint==1? "%.2f":decimalPoint==2?
-                "%.1f":"%.0f";
-        return String.format(format, newValue) + string + (this.currentMoney[0].equals("%")?"%":"");
-    }
+
 
 }
