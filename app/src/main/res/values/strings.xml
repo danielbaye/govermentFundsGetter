@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">My FApplication</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">חיפוש לפי מחלקה </string>
+    <string name="second_fragment_label">תצוגה לפי שנה</string>
+    <string name="tax_fragment_label">חישוב מס</string>
+    <string name="third_fragment_label">Third Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+
+    <string-array name="money">
+        <item>₪</item>
+        <item>%</item>
+        <item>₪%</item>
+    </string-array>
+
+    <string name="fragment_first_title">חיפוש לפי מחלקה</string>
+    <string name="fragment_second_title">תצוגה לפי שנה</string>
+
+
+    <string-array name="departments">
+        <item>הכל</item>
+        <item>הכנסת</item>
+        <item>משרד ראש הממשלה</item>
+        <item>משרד האוצר</item>
+        <item>משרד החינוך</item>
+        <item>משרד הפנים</item>
+        <item>המשרד לביטחון הפנים</item>
+        <item>משרד המשפטים</item>
+        <item>משרד החוץ</item>
+        <item>משרד הביטחון</item>
+        <item>משרד הרווחה</item>
+        <item>המשרד לשירותי דת</item>
+        <item>משרד הבריאות</item>
+        <item>משרד החקלאות</item>
+        <item>משרד האנרגיה</item>
+        <item>משרד התיירות</item>
+        <item>משרד התקשורת</item>
+        <item>משרד התחבורה</item>
+        <item>המשרד להגנת הסביבה</item>
+        <item>משרד הבינוי והשיכון</item>
+        <item>משרד העלייה והקליטה</item>
+        <item>מטה לביטחון לאומי</item>
+        <item>מבקר המדינה</item>
+        <item>גמלאות ופיצויים</item>
+        <item>הוצאות שונות</item>
+        <item>בחירות ומימון מפלגות</item>
+        <item>הוצאות חירום אזרחיות</item>
+        <item>תאום הפעולות בשטחים</item>
+        <item>הרשויות המקומיות</item>
+        <item>מדע, תרבות וספורט</item>
+        <item>ההשכלה הגבוהה</item>
+        <item>הרשות לניצולי השואה</item>
+        <item>הקצבות לביטוח לאומי</item>
+        <item>הוצאות ביטחוניות שונות</item>
+        <item>כלכלה ותעשייה</item>
+        <item>הועדה לאנרגיה אטומית</item>
+        <item>תעסוקה</item>
+        <item>רשות ממשלתית למים וביוב</item>
+        <item>מענקי בינוי ושיכון</item>
+        <item>המרכז למיפוי ישראל</item>
+        <item>תשלום ריבית ועמלות</item>
+        <item>חוק חיילים משוחררים</item>
+        <item>רזרבה כללית</item>
+        <item>דיור ממשלתי</item>
+        <item>המשטרה ובתי הסוהר</item>
+        <item>רשויות פיקוח</item>
+        <item>חינוך</item>
+        <item>בריאות</item>
+        <item>רשות האוכלוסין</item>
+        <item>שיכון</item>
+        <item>מפעלי מים</item>
+        <item>תעשייה</item>
+        <item>תיירות</item>
+        <item>תחבורה</item>
+        <item>הוצאות פיתוח אחרות</item>
+        <item>תשלום חובות</item>
+        <item>מפעלי משרד ראש הממשלה</item>
+        <item>בתי חולים לבריאות הנפש</item>
+        <item>בתי חולים ממשלתים</item>
+        <item>נמל חדרה</item>
+        <item>הוצאות מינהל מקרקעי</item>
+    </string-array>
+
+    <string-array name="years">
+        <item>all</item>
+        <item>2000</item>
+        <item>2001</item>
+        <item>2002</item>
+        <item>2003</item>
+        <item>2004</item>
+        <item>2005</item>
+        <item>2006</item>
+        <item>2007</item>
+        <item>2008</item>
+        <item>2009</item>
+        <item>2010</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus, augue at porttitor semper, lectus sapien commodo ligula, in tincidunt ligula ligula id purus. Fusce finibus sapien et est ullamcorper pharetra. Suspendisse potenti. Quisque ultrices enim ac justo finibus bibendum. Nam a ex auctor, pulvinar tortor sed, tempor mauris. Curabitur pulvinar quam vitae diam vehicula, sit amet tristique velit pulvinar. Sed laoreet dolor ut arcu placerat consectetur. Mauris id ultrices lorem. Integer finibus, ipsum ut ullamcorper facilisis, velit felis posuere tellus, ut luctus leo neque eget nulla. Vestibulum ut mi risus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam aliquam magna risus, a efficitur lectus finibus a. Mauris sit amet facilisis enim. Sed cursus ante et metus varius, id egestas nibh faucibus. Nunc id massa id lorem tristique malesuada id id ex.</string>
+</resources>

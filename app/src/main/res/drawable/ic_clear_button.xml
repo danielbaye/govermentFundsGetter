@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!-- Background shape -->
+<item>
+    <shape android:shape="rectangle">
+        <solid android:color="#808080" /> <!-- Set the background color to gray -->
+        <corners android:radius="8dp" /> <!-- Set the corner radius for the button -->
+    </shape>
+</item>
+
+<!-- X icon -->
+<item android:gravity="center">
+    <bitmap
+        android:src="@drawable/ic_x"
+        android:gravity="center"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:tint="@android:color/black" /> <!-- Set the tint color for the X icon -->
+</item>
+
+</layer-list>
