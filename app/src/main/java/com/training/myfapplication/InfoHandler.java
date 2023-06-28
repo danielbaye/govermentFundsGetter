@@ -320,8 +320,6 @@ public class InfoHandler {
                     sumByYearMap.put(year,0.0f);
                 JSONObject actualObject = (JSONObject) history.get(year);
 
-                if (!actualObject.isNull("net_executed"))
-
                     sumByYearMap.put(year,maxOfThree(actualObject));
             }
 

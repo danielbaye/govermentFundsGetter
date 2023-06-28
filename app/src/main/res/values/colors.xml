@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#808080</color>
     <color name="offWhite">#e3cdb3</color>
-
+    <color name="yellow">#FFEB3B</color>
     <style name="ButtonTextStyle" parent="android:Widget.Button">
 
         <item name="android:textSize">16sp</item>

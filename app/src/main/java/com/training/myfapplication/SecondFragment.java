@@ -5,28 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.material.snackbar.Snackbar;
-import com.training.myfapplication.databinding.ActivityMainBinding;
 import com.training.myfapplication.databinding.FragmentSecondBinding;
 
 import java.util.AbstractMap;
@@ -70,22 +62,43 @@ private FragmentSecondBinding binding;
 
         Collections.sort(currentYearValues, Map.Entry.comparingByValue());
         calculateSum(currentYearValues);
-        List<Item> itemList = new ArrayList<>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-      for (int i = currentYearValues.size()-1; i >= 0; i--) {
-            itemList.add(new Item(currentYearValues.get(i).getKey(),
-                    new usables().hebrewValue(currentYearValues.get(i).getValue(),'#')));
-        }
-
         setupPieChart(currentYearValues);
-        itemAdapter = new ItemAdapter(itemList);
-        recyclerView.setAdapter(itemAdapter);
+        setRecyclerView(currentYearValues);
 
+        NumberPicker numberPicker = binding.numberPicker;
+        numberPicker.setMinValue(1997);
+        numberPicker.setMaxValue(2024);
+        numberPicker.setValue(2024);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                ArrayList<Map.Entry<String,Float>> currentYearValues = getCurrentYearValues(String.valueOf(newVal));
+                Collections.sort(currentYearValues, Map.Entry.comparingByValue());
+                calculateSum(currentYearValues);
+                setupPieChart(currentYearValues);
+                setRecyclerView(currentYearValues);
+            }
+        });
         return binding.getRoot();
 
     }
+
+    private void setRecyclerView(ArrayList<Map.Entry<String, Float>> currentYearValues) {
+        List<Item> itemList = new ArrayList<>();
+        usables u = new usables();
+        for (int i = currentYearValues.size()-1; i >= 0; i--) {
+
+            itemList.add(new Item(currentYearValues.get(i).getKey(),
+                    u.hebrewValue(currentYearValues.get(i).getValue(),'#'),
+                    u.percentValue(currentYearValues.get(i).getValue(),yearSum)));
+        }
+        itemAdapter = new ItemAdapter(itemList);
+        recyclerView.setAdapter(itemAdapter);
+    }
+
+
 
     private ArrayList<Map.Entry<String, Float>> getCurrentYearValues(String currentYear) {
         ArrayList<Map.Entry<String, Float>> currentYearValues = new ArrayList<>();
@@ -93,8 +106,11 @@ private FragmentSecondBinding binding;
 
         for (int i = 0; i < keyList.size(); i++) {
             String title = keyList.get(i);
-            float value = departmentsAndValues.get(keyList.get(i)).get(currentYear);
-            currentYearValues.add(new AbstractMap.SimpleEntry<>(title,value));
+            if (departmentsAndValues.get(keyList.get(i)).containsKey(currentYear)) {
+                float value = departmentsAndValues.get(keyList.get(i)).get(currentYear);
+
+                currentYearValues.add(new AbstractMap.SimpleEntry<>(title, value));
+            }
         }
         return currentYearValues;
     }
@@ -108,7 +124,6 @@ private FragmentSecondBinding binding;
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -127,7 +142,7 @@ private FragmentSecondBinding binding;
     private void setupPieChart( ArrayList<Map.Entry<String, Float>> departmentsAndValues) {
         // Configure the PieChart
         PieChart pieChart = binding.pieChart;
-
+        pieChart.setVisibility(View.INVISIBLE);
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5, 10, 5, 5);
@@ -166,5 +181,6 @@ private FragmentSecondBinding binding;
 
         // Set the PieData to the PieChart
         pieChart.setData(data);
+        pieChart.setVisibility(View.VISIBLE);
     }
 }
