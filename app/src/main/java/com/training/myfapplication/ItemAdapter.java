@@ -18,11 +18,15 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private int clickedPosition;
     private List<Item> itemList;
+
+    private SecondFragment.MyFunction loadData;
     private int[] colors;
-    public ItemAdapter(List<Item> itemList) {
+    public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData) {
         this.itemList = itemList;
     this.colors = ColorTemplate.PASTEL_COLORS;
     this.clickedPosition = -1;
+        this.loadData = loadData;
+
     }
 
     @NonNull
@@ -55,7 +59,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             }
             else {
                 clickedPosition =-1;
-
+                loadData.loadData(holder.name.getText().toString());
             }
                 notifyDataSetChanged();
             }

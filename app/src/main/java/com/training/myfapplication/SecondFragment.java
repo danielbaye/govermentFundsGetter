@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,15 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.training.myfapplication.databinding.FragmentSecondBinding;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +39,11 @@ public class SecondFragment extends Fragment {
 private FragmentSecondBinding binding;
     private RecyclerView recyclerView;
     private ItemAdapter itemAdapter;
+
+private Map<String,String> currentTitles;
     private InfoHandler ih;
 
+    private int currentYear;
     private Map<String, Map<String, Float>> departmentsAndValues;
 
     private float yearSum;
@@ -49,28 +56,16 @@ private FragmentSecondBinding binding;
         ih = new InfoHandler(url,getContext());
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         recyclerView = binding.recyclerView;
-
-        Map<String,String> currentTitles = ih.getDepartmentsFromChildren("00");
-
-        ArrayList<String> CT = new ArrayList<>();
-        for (Map.Entry<String, String> entry :  new ArrayList<>(currentTitles.entrySet())) {
-            CT.add(entry.getKey());
-        }
-
-        departmentsAndValues = ih.getDepartmentsAndValues(CT);
-        ArrayList<Map.Entry<String,Float>> currentYearValues = getCurrentYearValues("2024");
-
-        Collections.sort(currentYearValues, Map.Entry.comparingByValue());
-        calculateSum(currentYearValues);
-
+        currentYear=2024;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        setupPieChart(currentYearValues);
-        setRecyclerView(currentYearValues);
+        currentTitles = new HashMap<>();
+        currentTitles.put("המדינה","00");
 
         NumberPicker numberPicker = binding.numberPicker;
         numberPicker.setMinValue(1997);
         numberPicker.setMaxValue(2024);
         numberPicker.setValue(2024);
+
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -79,8 +74,11 @@ private FragmentSecondBinding binding;
                 calculateSum(currentYearValues);
                 setupPieChart(currentYearValues);
                 setRecyclerView(currentYearValues);
+                currentYear = newVal;
             }
         });
+        loadData("המדינה");
+
         return binding.getRoot();
 
     }
@@ -94,7 +92,7 @@ private FragmentSecondBinding binding;
                     u.hebrewValue(currentYearValues.get(i).getValue(),'#'),
                     u.percentValue(currentYearValues.get(i).getValue(),yearSum)));
         }
-        itemAdapter = new ItemAdapter(itemList);
+        itemAdapter = new ItemAdapter(itemList,this::loadData);
         recyclerView.setAdapter(itemAdapter);
     }
 
@@ -151,36 +149,61 @@ private FragmentSecondBinding binding;
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setBackgroundColor(Color.WHITE);
         pieChart.setTransparentCircleRadius(61f);
-        pieChart.setUsePercentValues(true);
         pieChart.setCenterTextOffset(100,100);
-        pieChart.setDrawEntryLabels(false);
+//        pieChart.setDrawEntryLabels(false);
+
 
         // Create entries for the PieChart
         ArrayList<PieEntry> entries = new ArrayList<>();
         float elseSum =0;
         for (int i = departmentsAndValues.size()-1; i >= 0; i--) {
-            if (departmentsAndValues.get(i).getValue()/yearSum>0.01)
-            entries.add(new PieEntry(departmentsAndValues.get(i).getValue(),departmentsAndValues.get(i).getKey()));
+            if (departmentsAndValues.get(i).getValue()/yearSum>0.015)
+//            entries.add(new PieEntry(departmentsAndValues.get(i).getValue(),departmentsAndValues.get(i).getKey()));
+            entries.add(new PieEntry(departmentsAndValues.get(i).getValue(),""));
             else
                 elseSum += departmentsAndValues.get(i).getValue();
 
         }
         entries.add(new PieEntry(elseSum,"אחר"));
 
-
-        // Create a PieDataSet with the entries
         PieDataSet dataSet = new PieDataSet(entries, "Pie Chart");
+
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
 
-        // Create a PieData object with the dataSet
         PieData data = new PieData(dataSet);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
 
-        // Set the PieData to the PieChart
         pieChart.setData(data);
+        pieChart.setDescription(new Description());
         pieChart.setVisibility(View.VISIBLE);
+    }
+
+    public interface MyFunction {
+        void loadData(String name);
+    }
+
+    public void loadData(String name){
+
+        currentTitles = ih.getDepartmentsFromChildren(currentTitles.get(name));
+        if (currentTitles.size()==0) {
+            currentTitles = ih.getDepartmentsFromChildren("00");
+            Toast.makeText(getContext(),"אירעה שגיאה, חוזר לראשית", Toast.LENGTH_SHORT);
+            }
+        ArrayList<String> CT = new ArrayList<>();
+        for (Map.Entry<String, String> entry :  new ArrayList<>(currentTitles.entrySet())) {
+            CT.add(entry.getKey());
+        }
+        departmentsAndValues = ih.getDepartmentsAndValues(CT);
+        ArrayList<Map.Entry<String,Float>> currentYearValues =
+                getCurrentYearValues(String.valueOf(currentYear));
+
+        Collections.sort(currentYearValues, Map.Entry.comparingByValue());
+        calculateSum(currentYearValues);
+
+        setupPieChart(currentYearValues);
+        setRecyclerView(currentYearValues);
     }
 }

@@ -183,9 +183,10 @@ public class InfoHandler {
     public Map<String,String> getDepartmentsFromChildren(String newDepartmentCode) {
 
         infoGetter departmentsGetter = new infoGetter();
+
         String s = departmentsGetter.getQueryResponse(url + "SELECT children FROM budget " +
                 "where code " +departmentCode_translator(newDepartmentCode));
-        Map<String,String> departmentsMap = new HashMap<>();
+                Map<String,String> departmentsMap = new HashMap<>();
 
         try {
 
