@@ -21,7 +21,8 @@ import com.training.myfapplication.databinding.FragmentTaxBinding;
  * create an instance of this fragment.
  */
 public class Tax_Fragment extends Fragment {
-    private FragmentTaxBinding binding;    // TODO: Rename parameter arguments, choose names that match
+    private FragmentTaxBinding binding;
+    private Storage storage;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -41,6 +42,8 @@ public class Tax_Fragment extends Fragment {
 
     public Tax_Fragment() {
         // Required empty public constructor
+        storage = Storage.getInstance();
+
     }
 
     /**
@@ -94,13 +97,15 @@ public class Tax_Fragment extends Fragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Storage storage = Storage.getInstance();
                 if(!textviewMoney.getText().toString().isEmpty())
                     storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
                 NavHostFragment.findNavController(Tax_Fragment.this)
                         .navigate((R.id.FirstFragment));
             }
         });
+
+
+
         binding.buttonCalcule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +115,8 @@ public class Tax_Fragment extends Fragment {
                 else
                     tax = getTaxCalculation(binding.editTextNumber.getText());
                 textviewMoney.setText(String.valueOf(tax));
-                binding.button.setVisibility(View.VISIBLE);
+//                binding.button.setVisibility(View.VISIBLE);
+                storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
             }
 
         });
@@ -171,6 +177,6 @@ public class Tax_Fragment extends Fragment {
         taxSum -= (int) nekudotMas * 2820;
         int maAm = (int)((amount - taxSum)*0.17);
 
-        return taxSum + maAm;
+        return Math.max(taxSum + maAm, 0);
     }
 }

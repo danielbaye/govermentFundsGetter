@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_main_Menu_to_tax_Fragment"
             app:destination="@id/tax_Fragment" />
+        <action
+            android:id="@+id/action_main_Menu_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
     </fragment>
     <fragment
         android:id="@+id/tax_Fragment"
@@ -48,5 +51,14 @@
         <action
             android:id="@+id/action_tax_Fragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.training.myfapplication.ThirdFragment"
+        android:label="fragment_third"
+        tools:layout="@layout/fragment_third" >
+        <action
+            android:id="@+id/action_thirdFragment_to_main_Menu"
+            app:destination="@id/main_Menu" />
     </fragment>
 </navigation>

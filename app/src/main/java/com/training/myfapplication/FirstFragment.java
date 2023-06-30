@@ -2,8 +2,11 @@ package com.training.myfapplication;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +29,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.github.mikephil.charting.components.Description;
@@ -33,6 +38,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.training.myfapplication.databinding.ActivityMainBinding;
 import com.training.myfapplication.databinding.FragmentFirstBinding;
 
@@ -88,6 +94,8 @@ private FragmentFirstBinding binding;
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         String[] moneyArray = getResources().getStringArray(R.array.money);
         lineChart = binding.linechart;
+
+
         this.currentMoney = new String[]{moneyArray[0]};
 
         currentQuery = new String[]{""};
@@ -254,6 +262,40 @@ private FragmentFirstBinding binding;
             }
         });
 
+        GradientDrawable backgroundDrawable = new GradientDrawable();
+//        backgroundDrawable.setStroke(20, ColorStateList.valueOf(Color.BLACK));
+        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+        backgroundDrawable.setCornerRadius(40f);
+        binding.button.setBackground(backgroundDrawable);
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.constrainedLayout.setVisibility(View.INVISIBLE);
+                binding.taxLayout.setVisibility(View.VISIBLE);
+//                binding.childFragmentContainer.setVisibility(View.VISIBLE);
+//                binding.backButton.setVisibility(View.VISIBLE);
+            }
+        });
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Tax_Fragment tax_fragment = new Tax_Fragment();
+        fragmentTransaction.replace(R.id.child_fragment_container, tax_fragment);
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.constrainedLayout.setVisibility(View.VISIBLE);
+                binding.childFragmentContainer.setVisibility(View.INVISIBLE);
+                binding.backButton.setVisibility(View.INVISIBLE);
+                Storage storage = Storage.getInstance();
+                userInput = storage.getValue("taxes");
+                drawChart();
+            }
+        });
+
+
       return binding.getRoot();
     }
 
@@ -395,6 +437,13 @@ private FragmentFirstBinding binding;
         Collections.sort(valuesList,new EntryComparator());
         LineDataSet LDS = new LineDataSet(valuesList,currentMoney[0]);
         LDS.setDrawValues(false);
+
+        LDS.setCircleColor(Color.parseColor("#e27c7c"));
+//        lineChart.setGridBackgroundColor(Color.parseColor("#fd7f6f"));
+//        lineChart.setBorderColor(Color.parseColor("#beb9db"));
+        LDS.setColor(Color.parseColor("a86464"));
+        lineChart.setBackgroundColor( Color.parseColor("#333333"));
+//
         LDS.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {

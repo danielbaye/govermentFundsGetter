@@ -82,11 +82,13 @@ public class Main_Menu extends Fragment {
         binding.Button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.editText.setVisibility(View.VISIBLE);
-                binding.submitButton.setVisibility(View.VISIBLE);
-                binding.Button1.setVisibility(View.INVISIBLE);
-                binding.Button2.setVisibility(View.INVISIBLE);
-                binding.Button3.setVisibility(View.INVISIBLE);
+//                binding.editText.setVisibility(View.VISIBLE);
+//                binding.submitButton.setVisibility(View.VISIBLE);
+                 NavHostFragment.findNavController(Main_Menu.this)
+                                .navigate((R.id.FirstFragment));
+//                binding.Button1.setVisibility(View.INVISIBLE);
+//                binding.Button2.setVisibility(View.INVISIBLE);
+//                binding.Button3.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -106,52 +108,62 @@ public class Main_Menu extends Fragment {
                         .navigate((R.id.action_main_Menu_to_tax_Fragment));
             }
         });
-        EditText editText = binding.editText;
-        binding.submitButton.setVisibility(View.INVISIBLE);
-        binding.editText.setVisibility(View.INVISIBLE);
+//        EditText editText = binding.editText;
+//        binding.submitButton.setVisibility(View.INVISIBLE);
+//        binding.editText.setVisibility(View.INVISIBLE);
 
-        editText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    binding.submitButton.setVisibility(View.INVISIBLE);
-                    binding.editText.setVisibility(View.INVISIBLE);
-                    binding.Button1.setVisibility(View.VISIBLE);
-                    binding.Button2.setVisibility(View.VISIBLE);
-                    binding.Button3.setVisibility(View.VISIBLE);
-                    return true;
-                }
-                return false;
-            }
-        });
+//        editText.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+//                    binding.submitButton.setVisibility(View.INVISIBLE);
+//                    binding.editText.setVisibility(View.INVISIBLE);
+//                    binding.Button1.setVisibility(View.VISIBLE);
+//                    binding.Button2.setVisibility(View.VISIBLE);
+//                    binding.Button3.setVisibility(View.VISIBLE);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 
-        binding.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                   @Override
-                   public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                       if (actionId == EditorInfo.IME_ACTION_DONE){
-                           Storage storage = Storage.getInstance();
-                           if(!editText.getText().toString().isEmpty())
-                               storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
-                           NavHostFragment.findNavController(Main_Menu.this)
-                                   .navigate((R.id.FirstFragment));
-                           return true;
-                       }
-                       return false;
-                   }
-               });
+//        binding.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//                   @Override
+//                   public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                       if (actionId == EditorInfo.IME_ACTION_DONE){
+//                           Storage storage = Storage.getInstance();
+//                           if(!editText.getText().toString().isEmpty())
+//                               storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
+//                           NavHostFragment.findNavController(Main_Menu.this)
+//                                   .navigate((R.id.FirstFragment));
+//                           return true;
+//                       }
+//                       return false;
+//                   }
+//               });
 
-                binding.submitButton.setOnClickListener(new View.OnClickListener() {
+//                binding.submitButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Storage storage = Storage.getInstance();
+//                        if(!editText.getText().toString().isEmpty())
+//                            storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
+////                        storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
+//                        NavHostFragment.findNavController(Main_Menu.this)
+//                                .navigate((R.id.FirstFragment));
+//                    }
+//                });
+
+                binding.Button4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Storage storage = Storage.getInstance();
-                        if(!editText.getText().toString().isEmpty())
-                            storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
-//                        storage.addToMap("taxes", Float.parseFloat(editText.getText().toString()));
                         NavHostFragment.findNavController(Main_Menu.this)
-                                .navigate((R.id.FirstFragment));
+                                .navigate((R.id.thirdFragment));
                     }
                 });
+
+
 
         return binding.getRoot();
 //        return inflater.inflate(R.layout.fragment_main__menu, container, false);

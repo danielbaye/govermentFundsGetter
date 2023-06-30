@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -39,6 +40,7 @@ public class InfoHandler {
 
         Map<String, Map<String, Float>> EntryMap = new HashMap<>();
         JSONObject obj = new JSONObject();
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
         try{
             JSONArray array = new JSONArray("["+s+"]").getJSONObject(0)
                     .getJSONArray("rows");
@@ -47,10 +49,10 @@ public class InfoHandler {
             for (int i = 0; i < array.length(); i++) {
                 obj = array.getJSONObject(i);
                 if (obj.has("year")){
-                if (obj.get("year").toString().equals("2024")){
+                if (obj.get("year").toString().equals(curYear)){
                     if(obj.getJSONObject("history").length()>0) {
                         history = getHistory(obj.getJSONObject("history"));
-                        history.put("2024",maxOfThree(obj));
+                        history.put(curYear,maxOfThree(obj));
                         title = obj.getString("title");
                         if (!EntryMap.containsKey(title))
                             EntryMap.put(title,history);
@@ -117,6 +119,7 @@ public class InfoHandler {
                                 "FROM jsonb_array_elements(hierarchy) AS inner_array "+
                                 "WHERE inner_array->>0 = '"+currentDepartmentCode.peek().getKey()+"') or"
                                 +" code = '"+currentDepartmentCode.peek().getKey()+"')")));
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
 
         try {
             JSONArray array = new JSONArray("["+s+"]");
@@ -134,8 +137,8 @@ public class InfoHandler {
                         JSONObject actualObject = (JSONObject) history.get(year);
                         sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
                     }}
-                if (obj.get("year").toString().equals("2024"))
-                    sumByYearMap.put("2024",maxOfThree(obj));
+                if (obj.get("year").toString().equals(curYear))
+                    sumByYearMap.put(curYear,maxOfThree(obj));
             }
 
         } catch (JSONException e) {
@@ -218,6 +221,7 @@ public class InfoHandler {
         infoGetter inf = new infoGetter();
         String s = inf.getQueryResponse(url + "SELECT * FROM budget where code like '00'");
         Map<String,Float> sumByYearMap = new HashMap<>();
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
 
         try {
             JSONArray array = new JSONArray("["+s+"]");
@@ -231,13 +235,10 @@ public class InfoHandler {
                     if(!sumByYearMap.containsKey(year))
                         sumByYearMap.put(year,0.0f);
                     JSONObject actualObject = (JSONObject) history.get(year);
-
-                    if (!actualObject.isNull("net_executed"))
-
-                        sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
+                    sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
                 }}
-            if (obj.get("year").toString().equals("2024"))
-                sumByYearMap.put("2024",maxOfThree(obj));
+            if (obj.get("year").toString().equals(curYear))
+                sumByYearMap.put(curYear,maxOfThree(obj));
 
         } catch (JSONException e) {
             System.out.println(e.toString());

@@ -31,7 +31,6 @@ public class MainMenu extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_main_Menu_to_FirstFragment);
             }
         });
-        System.out.println("in MM");
         binding.Button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

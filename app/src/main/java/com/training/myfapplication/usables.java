@@ -1,5 +1,8 @@
 package com.training.myfapplication;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class usables {
 
 
@@ -33,6 +36,14 @@ public class usables {
         if (per>10)
             return String.format("%.0f",per)+"%";
         return String.format("%.1f",per)+"%";
+    }
+
+    public Float calculateSum(ArrayList<Map.Entry<String, Float>> departmentsAndValues) {
+        float sum=0;
+        for (int i = departmentsAndValues.size()-1; i >= 0; i--) {
+            sum+=departmentsAndValues.get(i).getValue();
+        }
+        return sum;
     }
 
 }

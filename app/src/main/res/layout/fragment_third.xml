@@ -7,38 +7,156 @@
     android:layout_height="match_parent"
     tools:context=".ThirdFragment"
     android:visibility="visible">
-
     <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrainedLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <Button
-            android:id="@+id/button_prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"
-            app:layout_constraintEnd_toEndOf="parent"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="77dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/govMoney"
+            app:layout_constraintEnd_toStartOf="@id/govMoney"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/govMoney" />
+
 
         <TextView
-            android:id="@+id/textview_second"
+            android:id="@+id/gov"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lorem_ipsum"
+            android:text="הממשלה רוצה להוציא:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionB" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black"
+            android:textSize="30dp"/>
 
-        <Button
-            android:id="@+id/actionB"
+        <TextView
+            android:id="@+id/govMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="get"
+            android:hint="הכנס את הוצאת הממשלה בשקלים"
+            android:inputType="number"
+            android:background="@android:drawable/editbox_background"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_prev" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gov"
+            android:enabled="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <TextView
+            android:id="@+id/me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="כמות המס ששילמתי היא:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/govMoney"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:id="@+id/meMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="הכנס את הכנסתך השנתית בשקלים"
+            android:inputType="number"
+            android:enabled="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@android:drawable/editbox_background"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/me"
+            />
+
+        <TextView
+            android:id="@+id/actual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="לכן ריאלית אשלם על התכנית:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meMoney"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🧮"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@+id/meMoney"
+            app:layout_constraintEnd_toStartOf="@+id/meMoney"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/me"
+            android:backgroundTint="@color/realBlack"
+
+            />
+
+        <TextView
+            android:id="@+id/actualMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="number"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actual"
+            android:textSize="45dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowRadius="10"
+            />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/child_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="323dp"
+        android:text="חזרה"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/child_fragment_container"
+        app:layout_constraintStart_toStartOf="@+id/child_fragment_container"
+        app:layout_constraintTop_toBottomOf="@+id/child_fragment_container" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

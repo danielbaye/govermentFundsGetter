@@ -26,6 +26,7 @@ import com.training.myfapplication.databinding.FragmentSecondBinding;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,22 +57,22 @@ private Map<String,String> currentTitles;
         ih = new InfoHandler(url,getContext());
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         recyclerView = binding.recyclerView;
-        currentYear=2024;
+        currentYear=Calendar.getInstance().get(Calendar.YEAR)+1;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         currentTitles = new HashMap<>();
         currentTitles.put("המדינה","00");
 
         NumberPicker numberPicker = binding.numberPicker;
         numberPicker.setMinValue(1997);
-        numberPicker.setMaxValue(2024);
-        numberPicker.setValue(2024);
+        numberPicker.setMaxValue(Calendar.getInstance().get(Calendar.YEAR)+1);
+        numberPicker.setValue(Calendar.getInstance().get(Calendar.YEAR)+1);
 
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 ArrayList<Map.Entry<String,Float>> currentYearValues = getCurrentYearValues(String.valueOf(newVal));
                 Collections.sort(currentYearValues, Map.Entry.comparingByValue());
-                calculateSum(currentYearValues);
+                yearSum = new usables().calculateSum(currentYearValues);
                 setupPieChart(currentYearValues);
                 setRecyclerView(currentYearValues);
                 currentYear = newVal;
@@ -113,12 +114,7 @@ private Map<String,String> currentTitles;
         return currentYearValues;
     }
 
-    private void calculateSum(ArrayList<Map.Entry<String, Float>> departmentsAndValues) {
-        yearSum=0;
-        for (int i = departmentsAndValues.size()-1; i >= 0; i--) {
-            yearSum+=departmentsAndValues.get(i).getValue();
-        }
-    }
+
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -201,7 +197,7 @@ private Map<String,String> currentTitles;
                 getCurrentYearValues(String.valueOf(currentYear));
 
         Collections.sort(currentYearValues, Map.Entry.comparingByValue());
-        calculateSum(currentYearValues);
+        yearSum = new usables().calculateSum(currentYearValues);
 
         setupPieChart(currentYearValues);
         setRecyclerView(currentYearValues);

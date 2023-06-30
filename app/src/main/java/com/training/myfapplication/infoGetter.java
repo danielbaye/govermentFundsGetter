@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +33,11 @@ public class infoGetter {
         private String response="0";
 
 
+
         HttpRequestTask(String url){
             this.url = url;
             this.response="";
+
         }
 
         @Override
@@ -115,7 +118,7 @@ public class infoGetter {
 
     public Map<String,Float> getSumByYear(String s,boolean a){
         Map<String,Float> sumByYearMap = new HashMap<>();
-
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
         try {
             JSONArray array = new JSONArray("["+s+"]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
@@ -133,8 +136,9 @@ public class infoGetter {
                         JSONObject actualObject = (JSONObject) history.get(year);
                             sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
                     }}
-                if (obj.get("year").toString().equals("2024"))
-                    sumByYearMap.put("2024",maxOfThree(obj));
+
+                if (obj.get("year").toString().equals(curYear))
+                    sumByYearMap.put(curYear,maxOfThree(obj));
             }
 
         } catch (JSONException e) {
@@ -195,6 +199,7 @@ public class infoGetter {
 
     public Map<String,Float> getJustBudgetByYear(String s){
         Map<String,Float> sumByYearMap = new HashMap<>();
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
         try {
             JSONArray array = new JSONArray("["+s+"]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
@@ -212,8 +217,8 @@ public class infoGetter {
 
                         sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
                 }}
-            if (obj.get("year").toString().equals("2024"))
-                sumByYearMap.put("2024",maxOfThree(obj));
+            if (obj.get("year").toString().equals(curYear))
+                sumByYearMap.put(curYear,maxOfThree(obj));
 
         } catch (JSONException e) {
             System.out.println(e.toString());
