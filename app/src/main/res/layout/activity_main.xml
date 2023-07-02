@@ -34,6 +34,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:title="lol"
+                android:gravity="right"
+                android:layout_gravity="right"
                 tools:visibility="visible" />
 
         </LinearLayout>

@@ -38,6 +38,8 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textColor="@color/black"
+            android:shadowRadius="5"
+            android:shadowColor="@color/white"
             android:textSize="30dp"/>
 
         <TextView
@@ -69,6 +71,8 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textColor="@color/black"
+            android:shadowRadius="5"
+            android:shadowColor="@color/white"
             android:textSize="30dp"/>
 
         <TextView
@@ -101,6 +105,8 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textColor="@color/black"
+            android:shadowRadius="5"
+            android:shadowColor="@color/white"
             android:textSize="30dp"/>
 
         <Button
@@ -133,7 +139,7 @@
             android:textSize="45dp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:shadowColor="@color/black"
+            android:shadowColor="@color/grey"
             android:shadowRadius="10"
             />
 

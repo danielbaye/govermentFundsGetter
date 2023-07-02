@@ -6,6 +6,8 @@
     <color name="grey">#808080</color>
     <color name="offWhite">#e3cdb3</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="Cyan">#7DD6F6</color>
+    <color name="purpleLike">#797EF6</color>
 
     <style name="ButtonTextStyle" parent="android:Widget.Button">
 

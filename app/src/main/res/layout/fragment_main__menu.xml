@@ -10,12 +10,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         >
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical|center_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,53 +22,103 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/Button1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="חיפוש לפי מחלקה"
-                    android:textSize="30dp"
+                <ImageView
+                    android:id="@+id/Logo"
+                    android:layout_width="193dp"
+                    android:layout_height="179dp"
+                    android:src="@mipmap/new_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/Button2"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="תצוגה לפי שנה"
-                    android:textSize="30dp"
+                    android:id="@+id/explaination"
+                    android:text="@string/welcome_text"
+                    android:gravity="center"
+                    android:textColor="@color/grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/Button1" />
+                    app:layout_constraintTop_toBottomOf="@id/Logo"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="48dp"
+                    />
 
-                <Button
-                    android:id="@+id/Button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🧮 חישוב מס"
-                    android:textSize="30dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/explaination"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/liner1">
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/Button2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="תצוגה לפי שנה"
+                        android:drawableTop="@drawable/pie"
+                        android:textSize="30dp"
+                        android:padding="8dp"
+                        android:layout_marginRight="10dp"
+                        style="@style/ButtonWithStroke"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/Button1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="חיפוש לפי סעיף"
+                        android:drawableTop="@drawable/magnification"
+                        android:textSize="30dp"
+                        android:padding="8dp"
+
+                        style="@style/ButtonWithStroke"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/liner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/Button2"
-                    android:background="@drawable/my_button_b"/>
+                    app:layout_constraintTop_toBottomOf="@id/liner1">
 
-                <Button
-                    android:id="@+id/Button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="כמה זה יעלה לי?"
-                    android:textSize="30dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/Button3" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/Button4"
+                        style="@style/ButtonWithStroke"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/dollar"
+                        android:padding="8dp"
+                        android:layout_marginRight="10dp"
+                        android:text="כמה זה יעלה לי?"
+                        android:textSize="30dp" />
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/Button3"
+                        style="@style/ButtonWithStroke"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/calcualtor"
+                        android:padding="8dp"
+                        android:text="מחשבון מס"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--            <RelativeLayout-->

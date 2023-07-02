@@ -9,14 +9,5 @@
     </shape>
 </item>
 
-<!-- X icon -->
-<item android:gravity="center">
-    <bitmap
-        android:src="@drawable/ic_x"
-        android:gravity="center"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:tint="@android:color/black" /> <!-- Set the tint color for the X icon -->
-</item>
 
 </layer-list>

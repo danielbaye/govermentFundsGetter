@@ -32,42 +32,52 @@
             android:id="@+id/spinner2"
             android:layout_width="0dp"
             android:layout_height="63dp"
-            android:layout_marginStart="80dp"
+        android:layout_marginLeft="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/money"
+            app:layout_constraintTop_toBottomOf="@id/orderList" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/query"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/money"
-            app:layout_constraintEnd_toStartOf="@+id/money"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner2"
+            app:layout_constraintTop_toTopOf="parent"
             app:queryHint="חיפוש" />
 
         <NumberPicker
             android:id="@+id/money"
             android:layout_width="53dp"
             android:layout_height="60dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
-
-        <ImageButton
-            android:id="@+id/upButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:onClick="onUpButtonClick"
-            app:layout_constraintBottom_toBottomOf="@+id/spinner2"
-            app:layout_constraintEnd_toStartOf="@+id/spinner2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spinner2"
-            app:layout_constraintVertical_bias="0.533"
-            app:srcCompat="@drawable/ic_up_arrow" />
+            app:layout_constraintTop_toBottomOf="@+id/orderList" />
+
+        <LinearLayout
+            android:id="@+id/orderList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/query"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/orderListText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="הכל"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="#D0D0D0" />
+
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/chartTitle"
@@ -76,9 +86,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="ס&quot;כ הוצאות"
+            android:layout_marginRight="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@id/Button"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/money" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -88,16 +99,16 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.30" />
 
-        <Button
-            android:id="@+id/button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Button"
+            style="@style/ButtonWithStroke"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🧮"
-            android:textSize="30dp"
-            app:layout_constraintBottom_toBottomOf="@+id/chartTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/chartTitle"
-            android:background="@drawable/my_button_b"
+            android:layout_height="0dp"
+
+            android:background="@drawable/calcualtor"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/money"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

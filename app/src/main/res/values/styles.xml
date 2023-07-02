@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonWithStroke" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_stroke</item>
+    </style>
+</resources>

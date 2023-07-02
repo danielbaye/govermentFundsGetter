@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.training.myfapplication.databinding.FragmentFirstBinding;
 import com.training.myfapplication.databinding.FragmentTaxBinding;
 
+import java.text.DecimalFormat;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Tax_Fragment#newInstance} factory method to
@@ -83,9 +85,9 @@ public class Tax_Fragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentTaxBinding.inflate(inflater, container, false);
 
-        binding.button.setVisibility(View.INVISIBLE);
-        String fragment_first_title = getResources().getString(R.string.fragment_first_title);
-        binding.button.setText("מעבר אל "+fragment_first_title);
+//        binding.button.setVisibility(View.INVISIBLE);
+//        String fragment_first_title = getResources().getString(R.string.fragment_first_title);
+//        binding.button.setText("מעבר אל "+fragment_first_title);
         TextView textviewMoney = binding.textviewMoney;
 
         String[] spinnerArray = {"שנה", "חודש"};
@@ -94,29 +96,30 @@ public class Tax_Fragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(adapter);
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!textviewMoney.getText().toString().isEmpty())
-                    storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
-                NavHostFragment.findNavController(Tax_Fragment.this)
-                        .navigate((R.id.FirstFragment));
-            }
-        });
+//        binding.button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!textviewMoney.getText().toString().isEmpty())
+//                    storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
+//                NavHostFragment.findNavController(Tax_Fragment.this)
+//                        .navigate((R.id.FirstFragment));
+//            }
+//        });
 
 
 
         binding.buttonCalcule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tax;
+                int tax=0;
                 if (binding.editTextNumber.getText().toString().equals(""))
                     tax =0;
                 else
                     tax = getTaxCalculation(binding.editTextNumber.getText());
-                textviewMoney.setText(String.valueOf(tax));
+                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                textviewMoney.setText(decimalFormat.format(tax) + "  בשנה  ");
 //                binding.button.setVisibility(View.VISIBLE);
-                storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
+                storage.addToMap("taxes", (float)tax);
             }
 
         });

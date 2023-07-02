@@ -2,6 +2,7 @@ package com.training.myfapplication;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +18,17 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private int clickedPosition;
+    private int focusedItemPosition;
     private List<Item> itemList;
 
     private SecondFragment.MyFunction loadData;
     private int[] colors;
     public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData) {
         this.itemList = itemList;
-    this.colors = ColorTemplate.PASTEL_COLORS;
-    this.clickedPosition = -1;
+        this.colors = ColorTemplate.PASTEL_COLORS;
+        this.clickedPosition = -1;
         this.loadData = loadData;
-
+        this.focusedItemPosition=-1;
     }
 
     @NonNull
@@ -45,11 +47,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         setCardColor(holder, position);
         setCardListener(holder,position);
+        if (position == focusedItemPosition) {
+
+        }
+    }
+
+    public void setItemFocus(int position) {
+        this.focusedItemPosition=position;
     }
 
     private void setCardListener(ViewHolder holder, int position) {
 
         CardView cardView = holder.itemView.findViewById(R.id.card);
+
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

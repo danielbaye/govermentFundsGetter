@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.training.myfapplication.databinding.FragmentSecondBinding;
 
@@ -136,6 +139,28 @@ private Map<String,String> currentTitles;
     private void setupPieChart( ArrayList<Map.Entry<String, Float>> departmentsAndValues) {
         // Configure the PieChart
         PieChart pieChart = binding.pieChart;
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                itemAdapter.setItemFocus((int)h.getX());
+                recyclerView.scrollToPosition((int)h.getX());
+
+//                recyclerView.post(() -> {
+//                    RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition((int)h.getX());
+//                    if (viewHolder != null) {
+//                        View itemView = viewHolder.itemView;
+//                        itemView.requestFocus();
+//                    }
+//                });
+//                recyclerView.setAdapter(itemAdapter);
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
         pieChart.setVisibility(View.INVISIBLE);
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);

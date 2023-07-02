@@ -439,11 +439,13 @@ private FragmentFirstBinding binding;
         LDS.setDrawValues(false);
 
         LDS.setCircleColor(Color.parseColor("#e27c7c"));
+//
 //        lineChart.setGridBackgroundColor(Color.parseColor("#fd7f6f"));
 //        lineChart.setBorderColor(Color.parseColor("#beb9db"));
-        LDS.setColor(Color.parseColor("a86464"));
-        lineChart.setBackgroundColor( Color.parseColor("#333333"));
-//
+//        LDS.setColor(Color.parseColor("a86464"));
+//        lineChart.setBackgroundColor( Color.parseColor("#333333"));
+        lineChart.getAxisLeft().setTextColor(Color.GRAY);
+        lineChart.getXAxis().setTextColor(Color.GRAY);
         LDS.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
