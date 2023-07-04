@@ -41,7 +41,6 @@
             android:id="@+id/query"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,18 +78,6 @@
 
 
 
-        <TextView
-            android:id="@+id/chartTitle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="ס&quot;כ הוצאות"
-            android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintEnd_toStartOf="@id/Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/money" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -99,18 +86,47 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.30" />
 
+        <LinearLayout
+            android:id="@+id/ButtonAndTitle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/money"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/chartTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="ס&quot;כ הוצאות"
+            android:layout_weight="20"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toStartOf="@id/Button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/money"
+            app:layout_constraintVertical_bias="1.0" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/Button"
             style="@style/ButtonWithStroke"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-
+            android:layout_height="match_parent"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="3"
             android:background="@drawable/calcualtor"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/money"
+            app:layout_constraintVertical_bias="0.5"
+            tools:ignore="SpeakableTextPresentCheck"
             />
-
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -123,6 +139,17 @@
         tools:context=".FirstFragment"
         android:label="@string/tax_fragment_label"
         >
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/calcualtor"
+        style="@style/ButtonWithStroke"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:background="@drawable/calcualtor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        />
 
     <FrameLayout
         android:id="@+id/child_fragment_container"
@@ -131,13 +158,25 @@
         app:layout_constraintBottom_toTopOf="@id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/calcualtor" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:text="לחיצה על חזרה גם תחליף את כמות המס ששילמת במסך הקודם"
+        app:layout_constraintStart_toStartOf="@id/backButton"
+        app:layout_constraintEnd_toEndOf="@id/backButton"
+        app:layout_constraintBottom_toTopOf="@id/backButton" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="חזרה"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:background="@drawable/button"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/child_fragment_container"
         app:layout_constraintStart_toStartOf="@+id/child_fragment_container"

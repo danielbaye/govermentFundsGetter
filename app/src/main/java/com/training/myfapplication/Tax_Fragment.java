@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.training.myfapplication.databinding.FragmentFirstBinding;
 import com.training.myfapplication.databinding.FragmentTaxBinding;
-
 import java.text.DecimalFormat;
 
 /**

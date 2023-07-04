@@ -27,20 +27,20 @@ public class InfoHandler {
     }
 
     public Map<String, Map<String, Float>> getDepartmentsAndValues(
-            ArrayList<String> titles){
+            ArrayList<String> codes){
         infoGetter ig = new infoGetter();
         String t = "";
-        for (int i = 0; i < titles.size(); i++) {
-            t+= " or title like '"+titles.get(i)+"'";
+        for (int i = 0; i < codes.size(); i++) {
+            t+= " or code like '"+codes.get(i)+"'";
         }
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
 
         String s = ig.getQueryResponse(url + "SELECT * FROM budget " +
-                "where code like ''" +t);
+                "where year = "+ curYear.toString()+" and code like '' " +t);
         String title="";
 
         Map<String, Map<String, Float>> EntryMap = new HashMap<>();
         JSONObject obj = new JSONObject();
-        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
         try{
             JSONArray array = new JSONArray("["+s+"]").getJSONObject(0)
                     .getJSONArray("rows");
@@ -49,17 +49,19 @@ public class InfoHandler {
             for (int i = 0; i < array.length(); i++) {
                 obj = array.getJSONObject(i);
                 if (obj.has("year")){
-                if (obj.get("year").toString().equals(curYear)){
                     if(obj.getJSONObject("history").length()>0) {
                         history = getHistory(obj.getJSONObject("history"));
-                        history.put(curYear,maxOfThree(obj));
+                        if (obj.get("year").toString().equals(curYear)) {
+                            history.put(curYear, maxOfThree(obj));
+                        }
                         title = obj.getString("title");
                         if (!EntryMap.containsKey(title))
-                            EntryMap.put(title,history);
-                        else if (EntryMap.get(title).size()<history.size())
-                            EntryMap.put(title,history);
+                            EntryMap.put(title, history);
+                        else if (EntryMap.get(title).size() < history.size())
+                            EntryMap.put(title, history);
+
                     }
-                }}
+                }
             }
 
         } catch (JSONException e) {
@@ -311,6 +313,14 @@ public class InfoHandler {
     public int sizeDepartment() {
         return currentDepartmentCode.size();
     }
+     public String[] getDepartmentNames(){
+        String names[] = new String[currentDepartmentCode.size()];
+         for (int i = 0; i < currentDepartmentCode.size(); i++) {
+             names[i] = currentDepartmentCode.get(i).getValue();
+
+         }
+        return names;
+     }
 
 
     private Map<String,Float> getHistory(JSONObject history) throws JSONException {

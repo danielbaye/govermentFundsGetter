@@ -8,11 +8,26 @@
     <color name="yellow">#FFEB3B</color>
     <color name="Cyan">#7DD6F6</color>
     <color name="purpleLike">#797EF6</color>
-
+    <color name="niceGrey">#DFDFDF</color>
     <style name="ButtonTextStyle" parent="android:Widget.Button">
 
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <array name="color_array">
+        <item>#3E2DA5</item>
+        <item>#5038BB</item>
+        <item>#6046D9</item>
+        <item>#7355F3</item>
+        <item>#7E6BFA</item>
+        <item>#7E85F4</item>
+        <item>#76ADE6</item>
+        <item>#70C1DF</item>
+        <item>#75D3DC</item>
+        <item>#9FE0E5</item>
+        <item>#DFDFDF</item>
+    </array>
+
 
 </resources>

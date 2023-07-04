@@ -29,6 +29,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
@@ -62,7 +63,6 @@ import java.util.Stack;
 
 
 public class FirstFragment extends Fragment {
-
 
 
 
@@ -118,20 +118,19 @@ private FragmentFirstBinding binding;
         spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (initializationFlag){
-                String item =parent.getItemAtPosition(position).toString();
-                ih.addDepartment(new AbstractMap.SimpleEntry<>(departmentsMap.get(item),item));
+                if (initializationFlag) {
+                    String item = parent.getItemAtPosition(position).toString();
+                    ih.addDepartment(new AbstractMap.SimpleEntry<>(departmentsMap.get(item), item));
 
-                setDepartmentsMap(ih.peekDepartment().getKey(),item);
-                adapter.clear();
-                adapter.addAll(getDepartmentKeys());
-                adapter.notifyDataSetChanged();
-                currentYearlyAmount = getSumMap();
-                spinner.setSelection(0);
-                initializationFlag = false;
-                }
-                else
-                    initializationFlag=true;
+                    setDepartmentsMap(ih.peekDepartment().getKey(), item);
+                    adapter.clear();
+                    adapter.addAll(getDepartmentKeys());
+                    adapter.notifyDataSetChanged();
+                    currentYearlyAmount = getSumMap();
+                    spinner.setSelection(0);
+                    initializationFlag = false;
+                } else
+                    initializationFlag = true;
                 drawChart();
             }
             @Override
@@ -236,38 +235,11 @@ private FragmentFirstBinding binding;
         });
 
 
-        ImageButton backButton = binding.upButton;
-        backButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                if (ih.sizeDepartment()>2) {
-                    ih.popDepartment();
-                    setDepartmentsMap(ih.peekDepartment().getKey(),
-                            ih.peekDepartment().getValue());
-                    currentYearlyAmount = getSumMap();
-                }
-                else {
-                    initializeDepartmentsMap();
-                    ih.clearDepartment();
-                    ih.addDepartment(new AbstractMap.SimpleEntry<>("00","הכל"));
 
-                    currentYearlyAmount = yearlySum;
-                    searchView.setIconified(true);
-                    currentQuery[0]="";
-                }
-                adapter.clear();
-                adapter.addAll(getDepartmentKeys());
-                adapter.notifyDataSetChanged();
-                spinner.setSelection(0);
-                drawChart();
-            }
-        });
 
-        GradientDrawable backgroundDrawable = new GradientDrawable();
 //        backgroundDrawable.setStroke(20, ColorStateList.valueOf(Color.BLACK));
-        binding.button.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-        backgroundDrawable.setCornerRadius(40f);
-        binding.button.setBackground(backgroundDrawable);
-        binding.button.setOnClickListener(new View.OnClickListener() {
+
+        binding.Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.constrainedLayout.setVisibility(View.INVISIBLE);
@@ -294,6 +266,33 @@ private FragmentFirstBinding binding;
                 drawChart();
             }
         });
+
+
+        binding.orderList.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                if (ih.sizeDepartment()>2) {
+                    ih.popDepartment();
+                    setDepartmentsMap(ih.peekDepartment().getKey(),
+                            ih.peekDepartment().getValue());
+                    currentYearlyAmount = getSumMap();
+                }
+                else {
+                    initializeDepartmentsMap();
+                    ih.clearDepartment();
+                    ih.addDepartment(new AbstractMap.SimpleEntry<>("00","הכל"));
+
+                    currentYearlyAmount = yearlySum;
+                    searchView.setIconified(true);
+                    currentQuery[0]="";
+                }
+                adapter.clear();
+                adapter.addAll(getDepartmentKeys());
+                adapter.notifyDataSetChanged();
+                spinner.setSelection(0);
+                drawChart();
+            }
+        });
+
 
 
       return binding.getRoot();
@@ -397,6 +396,12 @@ private FragmentFirstBinding binding;
     public void drawChart(){
         Map<String,Float> M = this.currentYearlyAmount;
 
+        String [] names = ih.getDepartmentNames();
+        String orderlistText = names[0];
+        for (int i = 1; i < names.length; i++) {
+            orderlistText+= ">"+names[i];
+        }
+        binding.orderListText.setText(orderlistText);
         lineChart.setVisibility(View.INVISIBLE);
         String newTitle = selectTitle();
 

@@ -28,8 +28,7 @@
     <fragment
         android:id="@+id/main_Menu"
         android:name="com.training.myfapplication.Main_Menu"
-        android:label="fragment_main__menu"
-        tools:layout="@layout/fragment_main__menu" >
+        tools:layout="@layout/fragment_main__menu">
         <action
             android:id="@+id/action_main_Menu_to_FirstFragment"
             app:destination="@id/FirstFragment" />
@@ -55,8 +54,8 @@
     <fragment
         android:id="@+id/thirdFragment"
         android:name="com.training.myfapplication.ThirdFragment"
-        android:label="fragment_third"
-        tools:layout="@layout/fragment_third" >
+        android:label="@string/third_fragment_label"
+        tools:layout="@layout/fragment_third">
         <action
             android:id="@+id/action_thirdFragment_to_main_Menu"
             app:destination="@id/main_Menu" />

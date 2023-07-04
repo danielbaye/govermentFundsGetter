@@ -21,14 +21,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private int focusedItemPosition;
     private List<Item> itemList;
 
+    private SecondFragment.showElse showElse;
     private SecondFragment.MyFunction loadData;
     private int[] colors;
-    public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData) {
+    public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData,
+                       int[] colors,SecondFragment.showElse showElse) {
         this.itemList = itemList;
-        this.colors = ColorTemplate.PASTEL_COLORS;
+        this.colors = colors;
         this.clickedPosition = -1;
         this.loadData = loadData;
         this.focusedItemPosition=-1;
+        this.showElse=showElse;
     }
 
     @NonNull
@@ -63,7 +66,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if(clickedPosition!=position) {
+                if (position == 10 && itemList.get(10).getName().equals("אחר")){
+                    showElse.showElse();
+                    clickedPosition=-1;
+                }
+            else if(clickedPosition!=position) {
                 clickedPosition = position;
 
             }
@@ -83,7 +90,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(30f);
         gradientDrawable.setColor(color); // Set desired background color
-        if (position == clickedPosition){
+        if (position == clickedPosition && !holder.name.equals("אחר")){
             int StrokeIndex = (position+2) % colors.length;
             int Strokecolor = colors[colorIndex];
 

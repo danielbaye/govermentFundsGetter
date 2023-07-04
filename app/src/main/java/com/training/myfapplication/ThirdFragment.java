@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -91,18 +92,13 @@ private FragmentThirdBinding binding;
             }
         });
 
-        GradientDrawable backgroundDrawable = new GradientDrawable();
-//        backgroundDrawable.setStroke(10, Color.BLACK);
-        backgroundDrawable.setColor(Color.TRANSPARENT);
-        binding.button.setBackground(backgroundDrawable);
 
-
-        binding.button.setOnClickListener(new View.OnClickListener() {
+        binding.Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.constrainedLayout.setVisibility(View.INVISIBLE);
-                binding.childFragmentContainer.setVisibility(View.VISIBLE);
-                binding.backButton.setVisibility(View.VISIBLE);
+                binding.taxLayout.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -113,24 +109,20 @@ private FragmentThirdBinding binding;
 
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        binding.childFragmentContainer.setVisibility(View.INVISIBLE);
-
-
-
-//        binding.backButton.setBackground(backgroundDrawable);
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.constrainedLayout.setVisibility(View.VISIBLE);
-                binding.childFragmentContainer.setVisibility(View.INVISIBLE);
-                binding.backButton.setVisibility(View.INVISIBLE);
+                binding.taxLayout.setVisibility(View.INVISIBLE);
+
                 Storage storage = Storage.getInstance();
                 binding.meMoney.setText(String.format("%.0f",storage.getValue("taxes")));
                 meMoney = storage.getValue("taxes");
                 changeOut();
             }
         });
-        binding.backButton.setVisibility(View.INVISIBLE);
+        binding.taxLayout.setVisibility(View.INVISIBLE);
+
 
         String[] spinnerArray = {"שקלים","אלפים","מליונים","מיליאדרים"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -149,7 +141,6 @@ private FragmentThirdBinding binding;
 
             }
         });
-
 
 
         return binding.getRoot();

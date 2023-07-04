@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ThirdFragment"
     android:visibility="visible">
-    <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrainedLayout"
         android:layout_width="match_parent"
@@ -75,21 +73,54 @@
             android:shadowColor="@color/white"
             android:textSize="30dp"/>
 
-        <TextView
-            android:id="@+id/meMoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="הכנס את הכנסתך השנתית בשקלים"
-            android:inputType="number"
-            android:enabled="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@android:drawable/editbox_background"
-            android:text=""
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/me"
-            />
+
+        <LinearLayout
+            android:id="@+id/ButtonAndTitle"
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/me"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/me"
+            app:layout_constraintTop_toBottomOf="@+id/me">
+
+            <TextView
+                android:id="@+id/meMoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="25"
+                android:background="@android:drawable/editbox_background"
+                android:enabled="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="הכנס את הכנסתך השנתית בשקלים"
+                android:inputType="number"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/Button"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/money"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/Button"
+                style="@style/ButtonWithStroke"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="10"
+                android:background="@drawable/calcualtor"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/money"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/actual"
@@ -100,7 +131,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/meMoney"
+            app:layout_constraintTop_toBottomOf="@+id/ButtonAndTitle"
             android:enabled="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -108,20 +139,6 @@
             android:shadowRadius="5"
             android:shadowColor="@color/white"
             android:textSize="30dp"/>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🧮"
-            android:textSize="30dp"
-            app:layout_constraintBottom_toBottomOf="@+id/meMoney"
-            app:layout_constraintEnd_toStartOf="@+id/meMoney"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/me"
-            android:backgroundTint="@color/realBlack"
-
-            />
 
         <TextView
             android:id="@+id/actualMoney"
@@ -142,27 +159,67 @@
             android:shadowColor="@color/grey"
             android:shadowRadius="10"
             />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/taxLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:label="@string/tax_fragment_label"
+            android:padding="8dp"
+            android:visibility="visible"
+            tools:context=".TaxFragment">
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/calcualtor"
+                style="@style/ButtonWithStroke"
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/calcualtor"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <FrameLayout
+                android:id="@+id/child_fragment_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/backButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/calcualtor" />
+
+
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:text="לחיצה על חזרה גם תחליף את כמות המס ששילמת במסך הקודם"
+                    android:textColor="@color/grey"
+                    app:layout_constraintBottom_toTopOf="@id/backButton"
+                    app:layout_constraintEnd_toEndOf="@id/backButton"
+                    app:layout_constraintStart_toStartOf="@id/backButton" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/backButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:elevation="4dp"
+                    android:text="חזרה"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/child_fragment_container"
+                    app:layout_constraintStart_toStartOf="@+id/child_fragment_container"
+                    app:layout_constraintTop_toBottomOf="@+id/child_fragment_container" />
 
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/child_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="323dp"
-        android:text="חזרה"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/child_fragment_container"
-        app:layout_constraintStart_toStartOf="@+id/child_fragment_container"
-        app:layout_constraintTop_toBottomOf="@+id/child_fragment_container" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>
