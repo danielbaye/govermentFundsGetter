@@ -57,7 +57,6 @@ private Map<String,String> currentTitles;
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        View view = binding.getRoot();
         String url = "https://next.obudget.org/api/query?query=";
         ih = new InfoHandler(url,getContext());
         binding = FragmentSecondBinding.inflate(inflater, container, false);
@@ -86,8 +85,6 @@ private Map<String,String> currentTitles;
             }
         });
         loadData("המדינה");
-
-
         return binding.getRoot();
 
     }

@@ -200,6 +200,15 @@ private FragmentFirstBinding binding;
                 return false;
             }
         });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentYearlyAmount = getSumMap();
+                drawChart();
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -223,7 +232,7 @@ private FragmentFirstBinding binding;
                     Set<String> uniqueSet = new HashSet<>(searchTitles);
                     searchTitles =  new ArrayList<>(uniqueSet);
                     }
-
+                currentQuery[0] = newText;
                 String[] columnNames =  {BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1};
                 MatrixCursor cursor = new MatrixCursor(columnNames);
                 int len = searchTitles.size()>7?7:searchTitles.size();
