@@ -28,7 +28,7 @@
             android:id="@+id/gov"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="הממשלה רוצה להוציא:"
+            android:text="אם הממשלה רוצה להוציא על תכנית כלשהי:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +38,7 @@
             android:textColor="@color/black"
             android:shadowRadius="5"
             android:shadowColor="@color/white"
-            android:textSize="30dp"/>
+            android:textSize="25dp"/>
 
         <TextView
             android:id="@+id/govMoney"
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="כמות המס ששילמתי היא:"
+            android:text="וכמות המס השנתית ששילמתי היא:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
             android:textColor="@color/black"
             android:shadowRadius="5"
             android:shadowColor="@color/white"
-            android:textSize="30dp"/>
+            android:textSize="25dp"/>
 
 
         <LinearLayout
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="לכן ריאלית אשלם על התכנית:"
+            android:text="אז בעצם אשלם מכיסי על התכנית:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
             android:textColor="@color/black"
             android:shadowRadius="5"
             android:shadowColor="@color/white"
-            android:textSize="30dp"/>
+            android:textSize="25dp"/>
 
         <TextView
             android:id="@+id/actualMoney"

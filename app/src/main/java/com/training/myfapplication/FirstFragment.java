@@ -253,8 +253,7 @@ private FragmentFirstBinding binding;
             public void onClick(View v) {
                 binding.constrainedLayout.setVisibility(View.INVISIBLE);
                 binding.taxLayout.setVisibility(View.VISIBLE);
-//                binding.childFragmentContainer.setVisibility(View.VISIBLE);
-//                binding.backButton.setVisibility(View.VISIBLE);
+
             }
         });
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -268,8 +267,7 @@ private FragmentFirstBinding binding;
             @Override
             public void onClick(View v) {
                 binding.constrainedLayout.setVisibility(View.VISIBLE);
-                binding.childFragmentContainer.setVisibility(View.INVISIBLE);
-                binding.backButton.setVisibility(View.INVISIBLE);
+                binding.taxLayout.setVisibility(View.INVISIBLE);
                 Storage storage = Storage.getInstance();
                 userInput = storage.getValue("taxes");
                 drawChart();
