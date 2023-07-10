@@ -143,6 +143,17 @@ private FragmentThirdBinding binding;
         });
 
 
+        if( Storage.getInstance().getValue("timesOpened")>8)
+            binding.textviewExplnaiton.setText("");
+        else
+            binding.constrainedLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.textviewExplnaiton.setText("");
+                }
+            });
+
+
         return binding.getRoot();
 
     }

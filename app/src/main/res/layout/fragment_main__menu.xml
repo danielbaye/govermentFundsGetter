@@ -29,8 +29,8 @@
 
                 <ImageView
                     android:id="@+id/Logo"
-                    android:layout_width="221dp"
-                    android:layout_height="219dp"
+                    android:layout_width="210dp"
+                    android:layout_height="210dp"
                     android:src="@mipmap/main_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/Logo"
                     android:paddingTop="16dp"
-                    android:paddingBottom="48dp"
+                    android:paddingBottom="16dp"
                     />
 
                 <LinearLayout

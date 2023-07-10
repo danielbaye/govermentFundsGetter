@@ -48,6 +48,7 @@ private FragmentSecondBinding binding;
 private Map<String,String> currentTitles;
     private InfoHandler ih;
 
+    private boolean showExplanation;
     private int currentYear;
     private Map<String, Map<String, Float>> departmentsAndValues;
 
@@ -67,7 +68,7 @@ private Map<String,String> currentTitles;
         recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
         currentTitles = new HashMap<>();
         currentTitles.put("המדינה","00");
-
+        showExplanation = true;
         NumberPicker numberPicker = binding.numberPicker;
         numberPicker.setMinValue(1997);
         numberPicker.setMaxValue(Calendar.getInstance().get(Calendar.YEAR)+1);
@@ -102,6 +103,12 @@ private Map<String,String> currentTitles;
         List<Item> smallItemList = new ArrayList<>();
         usables u = new usables();
         float sumOfSmallList=0.0f;
+        Storage storage = Storage.getInstance();
+
+        if (storage.getValue("timesOpened")<4 &&showExplanation){
+            itemList.add(new Item(getResources().getString(R.string.pieString),"0","0"));
+            showExplanation = false;
+        }
         for (int i = currentYearValues.size()-1; i >= 0; i--) {
             if(currentYearValues.size()-11<i)
             itemList.add(new Item(currentYearValues.get(i).getKey(),

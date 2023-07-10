@@ -95,15 +95,7 @@ public class Tax_Fragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(adapter);
-//        binding.button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(!textviewMoney.getText().toString().isEmpty())
-//                    storage.addToMap("taxes", Float.parseFloat(textviewMoney.getText().toString()));
-//                NavHostFragment.findNavController(Tax_Fragment.this)
-//                        .navigate((R.id.FirstFragment));
-//            }
-//        });
+
 
 
 
@@ -117,7 +109,6 @@ public class Tax_Fragment extends Fragment {
                     tax = getTaxCalculation(binding.editTextNumber.getText());
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 textviewMoney.setText(decimalFormat.format(tax) + "  בשנה  ");
-//                binding.button.setVisibility(View.VISIBLE);
                 storage.addToMap("taxes", (float)tax);
             }
 
@@ -136,6 +127,7 @@ public class Tax_Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 binding.textview.setText("הזן את הכנסתך ל"+spinnerArray[position]+" לשיערוך המס ששילמת בשנה זו");
+                binding.editTextNumber.setHint("נא להזין רווח ה"+spinnerArray[position]);
             }
 
             @Override
@@ -148,6 +140,23 @@ public class Tax_Fragment extends Fragment {
         binding.nekudotZhut.setMaxValue(numSteps - 1);
         binding.nekudotZhut.setDisplayedValues(displayedValues);
         binding.nekudotZhut.setValue(1);
+        binding.tax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.textviewMoneyExplnaiton.setText("");
+            }
+        });
+
+        if( Storage.getInstance().getValue("timesOpened")>8)
+            binding.textviewMoneyExplnaiton.setText("");
+        else
+            binding.tax.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.textviewMoneyExplnaiton.setText("");
+                }
+            });
+
         return binding.getRoot();
     }
 

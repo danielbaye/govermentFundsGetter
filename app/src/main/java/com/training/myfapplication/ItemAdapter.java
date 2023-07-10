@@ -23,6 +23,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private SecondFragment.showElse showElse;
     private SecondFragment.MyFunction loadData;
+
+    private boolean earlyUser;
     private int[] colors;
     public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData,
                        int[] colors,SecondFragment.showElse showElse) {
@@ -32,6 +34,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         this.loadData = loadData;
         this.focusedItemPosition=-1;
         this.showElse=showElse;
+        Storage storage = Storage.getInstance();
+        this.earlyUser = storage.getValue("timesOpened")<4;
     }
 
     @NonNull
@@ -69,8 +73,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 if (position == 10 && itemList.get(10).getName().equals("אחר")){
                     showElse.showElse();
                     clickedPosition=-1;
-                }
-            else if(clickedPosition!=position) {
+                } else if (position==0 && holder.value.getText().equals("0") ) {
+                    if (earlyUser)
+                        itemList.remove(0);
+                } else if(clickedPosition!=position) {
                 clickedPosition = position;
 
             }
@@ -78,7 +84,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 clickedPosition =-1;
                 loadData.loadData(holder.name.getText().toString());
             }
-                notifyDataSetChanged();
+
+            notifyDataSetChanged();
             }
         });
     }
@@ -87,12 +94,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         CardView cardView = holder.itemView.findViewById(R.id.card);
         int colorIndex = position % colors.length;
         int color = colors[colorIndex];
+        if (itemList.get(0).getValue().equals("0") && position==0) {
+            color = colors[10];
+            holder.name.setTextSize(20f);
+        }
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(30f);
         gradientDrawable.setColor(color); // Set desired background color
         if (position == clickedPosition && !holder.name.equals("אחר")){
-            int StrokeIndex = (position+2) % colors.length;
-            int Strokecolor = colors[colorIndex];
+//            int StrokeIndex = (position+2) % colors.length;
+//            int Strokecolor = colors[colorIndex];
 
             gradientDrawable.setStroke(20,Color.parseColor("#7096A2"));
 

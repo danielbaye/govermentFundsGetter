@@ -80,11 +80,13 @@ private FragmentFirstBinding binding;
     private String [] currentMoney;
     private String [] currentQuery;
     private Float userInput;
+    private boolean showExplanation;
     private Map<String,Float> yearlySum;
     private Map<String,String> departmentsMap;
     private boolean initializationFlag = false;
     private Map<String,Float> currentYearlyAmount;
     private String url = "https://next.obudget.org/api/query?query=";
+    private boolean earlyUser;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -94,8 +96,6 @@ private FragmentFirstBinding binding;
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         String[] moneyArray = getResources().getStringArray(R.array.money);
         lineChart = binding.linechart;
-
-
         this.currentMoney = new String[]{moneyArray[0]};
 
         currentQuery = new String[]{""};
@@ -106,7 +106,7 @@ private FragmentFirstBinding binding;
             userInput = 1000.0f;
         yearlySum = ih.getJustBudgetByYear();
         currentYearlyAmount = yearlySum;
-
+        showExplanation = true;
         initializeDepartmentsMap();
 
         Spinner spinner = binding.spinner2;
@@ -128,10 +128,13 @@ private FragmentFirstBinding binding;
                     adapter.notifyDataSetChanged();
                     currentYearlyAmount = getSumMap();
                     spinner.setSelection(0);
+                    drawChart();
                     initializationFlag = false;
-                } else
+
+                } else{
                     initializationFlag = true;
-                drawChart();
+                    drawChart();
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -291,17 +294,27 @@ private FragmentFirstBinding binding;
                     currentYearlyAmount = yearlySum;
                     searchView.setIconified(true);
                     currentQuery[0]="";
+
                 }
                 adapter.clear();
                 adapter.addAll(getDepartmentKeys());
                 adapter.notifyDataSetChanged();
                 spinner.setSelection(0);
+
                 drawChart();
+
             }
         });
 
+    binding.constrainedLayout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            binding.guideline2.setGuidelinePercent(0.3f);
+            binding.chartTitle.setText(selectTitle());
+        }
+    });
 
-
+        earlyUser = Storage.getInstance().getValue("timesOpened")<8;
       return binding.getRoot();
     }
 
@@ -425,6 +438,15 @@ private FragmentFirstBinding binding;
         else
             drawLineChart(valuesList);
         binding.chartTitle.setText(newTitle);
+
+        if (initializationFlag && earlyUser && showExplanation) {
+            binding.chartTitle.setText(getResources().getString(R.string.searchString));
+            showExplanation = false;
+        }
+        else {
+            binding.guideline2.setGuidelinePercent(0.3f);
+        }
+
         binding.chartTitle.setAutoSizeTextTypeUniformWithConfiguration(10, 100, 1, TypedValue.COMPLEX_UNIT_SP);
 
         Description dsc = new Description();

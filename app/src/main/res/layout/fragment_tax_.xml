@@ -59,6 +59,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_calcule" />
 
+        <TextView
+            android:id="@+id/textviewMoneyExplnaiton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="@string/taxExplanation"
+            android:textColor="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_calcule" />
+
         <EditText
             android:id="@+id/editTextNumber"
             android:layout_width="0dp"
@@ -66,6 +78,7 @@
             android:layout_marginTop="32dp"
             android:ems="10"
             android:inputType="number"
+            android:hint="נא להזין רווח שנתי"
             app:layout_constraintEnd_toEndOf="@+id/button_calcule"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview" />
