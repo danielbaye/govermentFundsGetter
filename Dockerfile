@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /usr/src/app
 
 # Copy the compiled JAR file into the container
-COPY --from=builder /usr/src/app/build/libs/*.jar app.jar
+COPY /usr/src/app/build/libs/*.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
