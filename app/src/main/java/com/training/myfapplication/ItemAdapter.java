@@ -26,16 +26,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private boolean earlyUser;
     private int[] colors;
-    public ItemAdapter(List<Item> itemList,SecondFragment.MyFunction loadData,
-                       int[] colors,SecondFragment.showElse showElse) {
+
+    public ItemAdapter(List<Item> itemList, SecondFragment.MyFunction loadData,
+            int[] colors, SecondFragment.showElse showElse) {
         this.itemList = itemList;
         this.colors = colors;
         this.clickedPosition = -1;
         this.loadData = loadData;
-        this.focusedItemPosition=-1;
-        this.showElse=showElse;
+        this.focusedItemPosition = -1;
+        this.showElse = showElse;
         Storage storage = Storage.getInstance();
-        this.earlyUser = storage.getValue("timesOpened")<4;
+        this.earlyUser = storage.getValue("timesOpened") < 4;
     }
 
     @NonNull
@@ -53,14 +54,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.percent.setText(item.getPercent());
 
         setCardColor(holder, position);
-        setCardListener(holder,position);
+        setCardListener(holder, position);
         if (position == focusedItemPosition) {
 
         }
     }
 
     public void setItemFocus(int position) {
-        this.focusedItemPosition=position;
+        this.focusedItemPosition = position;
     }
 
     private void setCardListener(ViewHolder holder, int position) {
@@ -70,22 +71,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 10 && itemList.get(10).getName().equals("אחר")){
+                if (position == 10 && itemList.get(10).getName().equals("אחר")) {
                     showElse.showElse();
-                    clickedPosition=-1;
-                } else if (position==0 && holder.value.getText().equals("0") ) {
+                    clickedPosition = -1;
+                } else if (position == 0 && holder.value.getText().equals("0")) {
                     if (earlyUser)
                         itemList.remove(0);
-                } else if(clickedPosition!=position) {
-                clickedPosition = position;
+                } else if (clickedPosition != position) {
+                    clickedPosition = position;
 
-            }
-            else {
-                clickedPosition =-1;
-                loadData.loadData(holder.name.getText().toString());
-            }
+                } else {
+                    clickedPosition = -1;
+                    loadData.loadData(holder.name.getText().toString());
+                }
 
-            notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         });
     }
@@ -94,18 +94,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         CardView cardView = holder.itemView.findViewById(R.id.card);
         int colorIndex = position % colors.length;
         int color = colors[colorIndex];
-        if (itemList.get(0).getValue().equals("0") && position==0) {
+        if (itemList.get(0).getValue().equals("0") && position == 0) {
             color = colors[10];
             holder.name.setTextSize(20f);
         }
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(30f);
         gradientDrawable.setColor(color); // Set desired background color
-        if (position == clickedPosition && !holder.name.equals("אחר")){
-//            int StrokeIndex = (position+2) % colors.length;
-//            int Strokecolor = colors[colorIndex];
+        if (position == clickedPosition && !holder.name.equals("אחר")) {
+            // int StrokeIndex = (position+2) % colors.length;
+            // int Strokecolor = colors[colorIndex];
 
-            gradientDrawable.setStroke(20,Color.parseColor("#7096A2"));
+            gradientDrawable.setStroke(20, Color.parseColor("#7096A2"));
 
         }
         cardView.setBackground(gradientDrawable);
@@ -121,6 +121,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         TextView value;
 
         TextView percent;
+
         public ViewHolder(View itemView) {
             super(itemView);
 

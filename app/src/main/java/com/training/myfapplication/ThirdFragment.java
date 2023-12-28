@@ -29,31 +29,28 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Map;
 
-
 public class ThirdFragment extends Fragment {
 
-
-
-private FragmentThirdBinding binding;
-    float govMoney,meMoney;
+    private FragmentThirdBinding binding;
+    float govMoney, meMoney;
     Float yearSum;
 
     int currentPosition;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            Bundle savedInstanceState) {
 
-      binding = FragmentThirdBinding.inflate(inflater, container, false);
+        binding = FragmentThirdBinding.inflate(inflater, container, false);
         InfoHandler ih = new InfoHandler("https://next.obudget.org/api/query?query=",
                 getContext());
 
-        govMoney=0f;
-        meMoney=0f;
-        currentPosition=0;
+        govMoney = 0f;
+        meMoney = 0f;
+        currentPosition = 0;
         Map<String, Float> budgetByYear = ih.getJustBudgetByYear();
-        int year = Calendar.getInstance().get(Calendar.YEAR) +1;
+        int year = Calendar.getInstance().get(Calendar.YEAR) + 1;
         yearSum = budgetByYear.get(String.valueOf(year));
 
         binding.govMoney.addTextChangedListener(new TextWatcher() {
@@ -92,7 +89,6 @@ private FragmentThirdBinding binding;
             }
         });
 
-
         binding.Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,16 +112,16 @@ private FragmentThirdBinding binding;
                 binding.taxLayout.setVisibility(View.INVISIBLE);
 
                 Storage storage = Storage.getInstance();
-                binding.meMoney.setText(String.format("%.0f",storage.getValue("taxes")));
+                binding.meMoney.setText(String.format("%.0f", storage.getValue("taxes")));
                 meMoney = storage.getValue("taxes");
                 changeOut();
             }
         });
         binding.taxLayout.setVisibility(View.INVISIBLE);
 
-
-        String[] spinnerArray = {"שקלים","אלפים","מליונים","מיליאדרים"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
+        String[] spinnerArray = { "שקלים", "אלפים", "מליונים", "מיליאדרים" };
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(adapter);
         binding.spinner.setSelection(0);
@@ -142,8 +138,7 @@ private FragmentThirdBinding binding;
             }
         });
 
-
-        if( Storage.getInstance().getValue("timesOpened")>8)
+        if (Storage.getInstance().getValue("timesOpened") > 8)
             binding.textviewExplnaiton.setText("");
         else
             binding.constrainedLayout.setOnClickListener(new View.OnClickListener() {
@@ -153,22 +148,21 @@ private FragmentThirdBinding binding;
                 }
             });
 
-
         return binding.getRoot();
 
     }
 
     private void changeOut() {
-        if(govMoney>0 &&yearSum>0 && meMoney>0) {
-            if (govMoney>yearSum)
-            {
+        if (govMoney > 0 && yearSum > 0 && meMoney > 0) {
+            if (govMoney > yearSum) {
                 Toast.makeText(getContext(),
                         "הוצאת הממשלה החדשה לא יכולה" +
-                                " להיות גדולה מהתקציב שלה!",Toast.LENGTH_LONG);
+                                " להיות גדולה מהתקציב שלה!",
+                        Toast.LENGTH_LONG);
                 return;
             }
-            float tens = (float)(Math.pow( 10,3*currentPosition));
-            float govSpends = govMoney*tens / (govMoney*tens + yearSum);
+            float tens = (float) (Math.pow(10, 3 * currentPosition));
+            float govSpends = govMoney * tens / (govMoney * tens + yearSum);
             int outMoney = (int) (govSpends * meMoney);
             DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
@@ -176,15 +170,12 @@ private FragmentThirdBinding binding;
         }
     }
 
-
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
     }
 
-
-
-@Override
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;

@@ -29,13 +29,13 @@ public class Tax_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private static final double[][] taxArray = {
-            {81480 , 0.1},
-            {35280, 0.14},
-            {70679, 0.2},
-            {73079, 0.31},
-            {70679, 0.2},
-            {281639, 0.35},
-            {156119, 0.47}
+            { 81480, 0.1 },
+            { 35280, 0.14 },
+            { 70679, 0.2 },
+            { 73079, 0.31 },
+            { 70679, 0.2 },
+            { 281639, 0.35 },
+            { 156119, 0.47 }
     };
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,40 +76,36 @@ public class Tax_Fragment extends Fragment {
 
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTaxBinding.inflate(inflater, container, false);
 
-//        binding.button.setVisibility(View.INVISIBLE);
-//        String fragment_first_title = getResources().getString(R.string.fragment_first_title);
-//        binding.button.setText("מעבר אל "+fragment_first_title);
+        // binding.button.setVisibility(View.INVISIBLE);
+        // String fragment_first_title =
+        // getResources().getString(R.string.fragment_first_title);
+        // binding.button.setText("מעבר אל "+fragment_first_title);
         TextView textviewMoney = binding.textviewMoney;
 
-        String[] spinnerArray = {"שנה", "חודש"};
+        String[] spinnerArray = { "שנה", "חודש" };
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(adapter);
-
-
-
 
         binding.buttonCalcule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tax=0;
+                int tax = 0;
                 if (binding.editTextNumber.getText().toString().equals(""))
-                    tax =0;
+                    tax = 0;
                 else
                     tax = getTaxCalculation(binding.editTextNumber.getText());
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 textviewMoney.setText(decimalFormat.format(tax) + "  בשנה  ");
-                storage.addToMap("taxes", (float)tax);
+                storage.addToMap("taxes", (float) tax);
             }
 
         });
@@ -126,8 +122,8 @@ public class Tax_Fragment extends Fragment {
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                binding.textview.setText("הזן את הכנסתך ל"+spinnerArray[position]+" לשיערוך המס ששילמת בשנה זו");
-                binding.editTextNumber.setHint("נא להזין רווח ה"+spinnerArray[position]);
+                binding.textview.setText("הזן את הכנסתך ל" + spinnerArray[position] + " לשיערוך המס ששילמת בשנה זו");
+                binding.editTextNumber.setHint("נא להזין רווח ה" + spinnerArray[position]);
             }
 
             @Override
@@ -135,7 +131,8 @@ public class Tax_Fragment extends Fragment {
 
             }
         });
-        binding.textview.setText("הזן את הכנסתך ל"+binding.spinner.getSelectedItem().toString()+" לשיערוך המס ששילמת בשנה זו");
+        binding.textview.setText(
+                "הזן את הכנסתך ל" + binding.spinner.getSelectedItem().toString() + " לשיערוך המס ששילמת בשנה זו");
         binding.nekudotZhut.setMinValue(0);
         binding.nekudotZhut.setMaxValue(numSteps - 1);
         binding.nekudotZhut.setDisplayedValues(displayedValues);
@@ -147,7 +144,7 @@ public class Tax_Fragment extends Fragment {
             }
         });
 
-        if( Storage.getInstance().getValue("timesOpened")>8)
+        if (Storage.getInstance().getValue("timesOpened") > 8)
             binding.textviewMoneyExplnaiton.setText("");
         else
             binding.tax.setOnClickListener(new View.OnClickListener() {
@@ -170,23 +167,22 @@ public class Tax_Fragment extends Fragment {
         String str = text.toString();
         int amount = Integer.parseInt(str);
         if (binding.spinner.getSelectedItem().toString().equals("חודש"))
-            amount *=12;
+            amount *= 12;
         int tax = amount;
-        int taxSum =0;
+        int taxSum = 0;
 
-        int i=0;
-        while (tax>0 && i<taxArray.length){
-            if (tax - taxArray[i][0]>0){
-                taxSum+= (int) Math.round( taxArray[i][0]*taxArray[i][1]);
-            }
-            else
-                taxSum+= (int) Math.round( tax*taxArray[i][1]);
-            tax-= taxArray[i][0];
+        int i = 0;
+        while (tax > 0 && i < taxArray.length) {
+            if (tax - taxArray[i][0] > 0) {
+                taxSum += (int) Math.round(taxArray[i][0] * taxArray[i][1]);
+            } else
+                taxSum += (int) Math.round(tax * taxArray[i][1]);
+            tax -= taxArray[i][0];
             i++;
         }
         double nekudotMas = 2.25 + (0.25 * binding.nekudotZhut.getValue());
         taxSum -= (int) nekudotMas * 2820;
-        int maAm = (int)((amount - taxSum)*0.17);
+        int maAm = (int) ((amount - taxSum) * 0.17);
 
         return Math.max(taxSum + maAm, 0);
     }

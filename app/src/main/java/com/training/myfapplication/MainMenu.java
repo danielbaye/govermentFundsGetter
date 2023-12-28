@@ -15,12 +15,10 @@ import com.training.myfapplication.databinding.FragmentSecondBinding;
 public class MainMenu extends Fragment {
     private FragmentMainMenuBinding binding;
 
-
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            Bundle savedInstanceState) {
 
         binding = FragmentMainMenuBinding.inflate(inflater, container, false);
 

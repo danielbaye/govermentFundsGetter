@@ -38,9 +38,9 @@ public class Main_Menu extends Fragment {
 
     private FragmentMainMenuBinding binding;
 
-
     public Main_Menu() {
     }
+
     public static Main_Menu newInstance() {
         Main_Menu fragment = new Main_Menu();
         Bundle args = new Bundle();
@@ -57,7 +57,7 @@ public class Main_Menu extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         this.binding = FragmentMainMenuBinding.inflate(inflater, container, false);
 
@@ -69,13 +69,12 @@ public class Main_Menu extends Fragment {
             actionBar.setTitle("");
         }
 
-
         binding.Button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                 NavHostFragment.findNavController(Main_Menu.this)
-                                .navigate((R.id.FirstFragment));
+                NavHostFragment.findNavController(Main_Menu.this)
+                        .navigate((R.id.FirstFragment));
 
             }
         });
@@ -96,21 +95,21 @@ public class Main_Menu extends Fragment {
                         .navigate((R.id.action_main_Menu_to_tax_Fragment));
             }
         });
-                binding.Button4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NavHostFragment.findNavController(Main_Menu.this)
-                                .navigate((R.id.thirdFragment));
-                    }
-                });
+        binding.Button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(Main_Menu.this)
+                        .navigate((R.id.thirdFragment));
+            }
+        });
 
         Storage storage = Storage.getInstance();
-        float timesOpened  = storage.getValue("timesOpened");
+        float timesOpened = storage.getValue("timesOpened");
 
-        storage.addToMap("timesOpened",timesOpened +1);
+        storage.addToMap("timesOpened", timesOpened + 1);
 
         return binding.getRoot();
-//        return inflater.inflate(R.layout.fragment_main__menu, container, false);
+        // return inflater.inflate(R.layout.fragment_main__menu, container, false);
     }
 
 }

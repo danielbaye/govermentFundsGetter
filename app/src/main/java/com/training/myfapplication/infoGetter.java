@@ -21,22 +21,16 @@ import java.util.Map;
 
 public class infoGetter {
 
-
-
-
     infoGetter() {
     }
 
-
     public class HttpRequestTask extends Thread {
         private String url;
-        private String response="0";
+        private String response = "0";
 
-
-
-        HttpRequestTask(String url){
+        HttpRequestTask(String url) {
             this.url = url;
-            this.response="";
+            this.response = "";
 
         }
 
@@ -44,7 +38,7 @@ public class infoGetter {
         public void run() {
             super.run();
 
-            this.response="1";
+            this.response = "1";
             try {
                 URL apiUrl = new URL(this.url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
@@ -76,8 +70,6 @@ public class infoGetter {
                 this.response = "fail" + e.toString();
             }
 
-
-
         }
 
         public String getResponse() {
@@ -85,30 +77,31 @@ public class infoGetter {
         }
     }
 
-    public String getQueryResponse(String query){
+    public String getQueryResponse(String query) {
         HttpRequestTask task = new HttpRequestTask(query);
 
         task.start();
-        while (task.isAlive()){
+        while (task.isAlive()) {
         }
         return task.getResponse();
 
     }
 
-    public ArrayList<String> getTitles(String s){
+    public ArrayList<String> getTitles(String s) {
         ArrayList<String> titleList = new ArrayList<>();
 
         try {
-            JSONArray array = new JSONArray("["+s+"]");
+            JSONArray array = new JSONArray("[" + s + "]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                if (!obj.isNull("title")){
+                if (!obj.isNull("title")) {
                     titleList.add(obj.getString("title"));
 
-            }
+                }
 
-        }} catch (JSONException e) {
+            }
+        } catch (JSONException e) {
             System.out.println(e.toString());
             throw new RuntimeException(e);
         }
@@ -116,53 +109,55 @@ public class infoGetter {
         return titleList;
     }
 
-    public Map<String,Float> getSumByYear(String s,boolean a){
-        Map<String,Float> sumByYearMap = new HashMap<>();
-        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
+    public Map<String, Float> getSumByYear(String s, boolean a) {
+        Map<String, Float> sumByYearMap = new HashMap<>();
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) + 1);
         try {
-            JSONArray array = new JSONArray("["+s+"]");
+            JSONArray array = new JSONArray("[" + s + "]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
             int i;
-            for ( i = 0; i <= (a?(array.length()-1):0) ; i++) {
+            for (i = 0; i <= (a ? (array.length() - 1) : 0); i++) {
                 JSONObject obj = array.getJSONObject(i);
-//                JSONObject obj = array.getJSONObject(0);
-                if (obj.has("history")){
+                // JSONObject obj = array.getJSONObject(0);
+                if (obj.has("history")) {
                     JSONObject history = obj.getJSONObject("history");
 
                     for (int j = 0; j < history.length(); j++) {
                         String year = String.valueOf(history.names().get(j));
-                        if(!sumByYearMap.containsKey(year))
-                            sumByYearMap.put(year,0.0f);
+                        if (!sumByYearMap.containsKey(year))
+                            sumByYearMap.put(year, 0.0f);
                         JSONObject actualObject = (JSONObject) history.get(year);
-                            sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
-                    }}
+                        sumByYearMap.put(year, sumByYearMap.get(year) + maxOfThree(actualObject));
+                    }
+                }
 
                 if (obj.get("year").toString().equals(curYear))
-                    sumByYearMap.put(curYear,maxOfThree(obj));
+                    sumByYearMap.put(curYear, maxOfThree(obj));
             }
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
-    return sumByYearMap;
+        return sumByYearMap;
     }
 
-    public Map<String,String> getDepartments(String s) {
+    public Map<String, String> getDepartments(String s) {
 
-        Map<String,String> departmentsMap = new HashMap<>();
+        Map<String, String> departmentsMap = new HashMap<>();
 
         try {
-            JSONArray array = new JSONArray("["+s+"]");
+            JSONArray array = new JSONArray("[" + s + "]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                if (!obj.isNull("title")){
-                    departmentsMap.put(obj.getString("title"),obj.getString("code"));
+                if (!obj.isNull("title")) {
+                    departmentsMap.put(obj.getString("title"), obj.getString("code"));
 
                 }
 
-            }} catch (JSONException e) {
+            }
+        } catch (JSONException e) {
             System.out.println(e.toString());
             throw new RuntimeException(e);
         }
@@ -171,25 +166,26 @@ public class infoGetter {
 
     }
 
-    public Map<String,String> getDepartmentsFromChildren(String s) {
+    public Map<String, String> getDepartmentsFromChildren(String s) {
 
-        Map<String,String> departmentsMap = new HashMap<>();
+        Map<String, String> departmentsMap = new HashMap<>();
 
         try {
-            JSONArray array = new JSONArray("["+s+"]");
+            JSONArray array = new JSONArray("[" + s + "]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
-            if(((JSONObject) array.get(0)).has("children"))
-                if(((JSONObject) array.get(0)).getString("children").equals("null"))
-                return departmentsMap;
+            if (((JSONObject) array.get(0)).has("children"))
+                if (((JSONObject) array.get(0)).getString("children").equals("null"))
+                    return departmentsMap;
             array = (JSONArray) ((JSONObject) array.get(0)).get("children");
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                if (!obj.isNull("title")){
-                    departmentsMap.put(obj.getString("title"),obj.getString("code"));
+                if (!obj.isNull("title")) {
+                    departmentsMap.put(obj.getString("title"), obj.getString("code"));
                 }
 
-            }} catch (JSONException e) {
+            }
+        } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
@@ -197,28 +193,29 @@ public class infoGetter {
 
     }
 
-    public Map<String,Float> getJustBudgetByYear(String s){
-        Map<String,Float> sumByYearMap = new HashMap<>();
-        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+1);
+    public Map<String, Float> getJustBudgetByYear(String s) {
+        Map<String, Float> sumByYearMap = new HashMap<>();
+        String curYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR) + 1);
         try {
-            JSONArray array = new JSONArray("["+s+"]");
+            JSONArray array = new JSONArray("[" + s + "]");
             array = (JSONArray) array.getJSONObject(0).get("rows");
             JSONObject obj = array.getJSONObject(0);
-            if (obj.has("history")){
+            if (obj.has("history")) {
                 JSONObject history = obj.getJSONObject("history");
 
                 for (int j = 0; j < history.length(); j++) {
                     String year = String.valueOf(history.names().get(j));
-                    if(!sumByYearMap.containsKey(year))
-                        sumByYearMap.put(year,0.0f);
+                    if (!sumByYearMap.containsKey(year))
+                        sumByYearMap.put(year, 0.0f);
                     JSONObject actualObject = (JSONObject) history.get(year);
 
                     if (!actualObject.isNull("net_executed"))
 
-                        sumByYearMap.put(year,sumByYearMap.get(year)+ maxOfThree(actualObject));
-                }}
+                        sumByYearMap.put(year, sumByYearMap.get(year) + maxOfThree(actualObject));
+                }
+            }
             if (obj.get("year").toString().equals(curYear))
-                sumByYearMap.put(curYear,maxOfThree(obj));
+                sumByYearMap.put(curYear, maxOfThree(obj));
 
         } catch (JSONException e) {
             System.out.println(e.toString());
@@ -230,12 +227,9 @@ public class infoGetter {
 
     public Float maxOfThree(JSONObject actualObject) throws JSONException {
         Double max = null;
-        Double a =  !actualObject.isNull("net_executed")?
-                actualObject.getDouble("net_executed"):0.0f;
-        Double b =  !actualObject.isNull("net_allocated")?
-                actualObject.getDouble("net_allocated"):0.0f;
-        Double c =  !actualObject.isNull("net_revised")?
-                actualObject.getDouble("net_revised"):0.0f;
+        Double a = !actualObject.isNull("net_executed") ? actualObject.getDouble("net_executed") : 0.0f;
+        Double b = !actualObject.isNull("net_allocated") ? actualObject.getDouble("net_allocated") : 0.0f;
+        Double c = !actualObject.isNull("net_revised") ? actualObject.getDouble("net_revised") : 0.0f;
         if (a != null && (max == null || a > max)) {
             max = a;
         }
@@ -246,13 +240,7 @@ public class infoGetter {
             max = c;
         }
 
-        return  max.floatValue();
+        return max.floatValue();
     }
 
 }
-
-
-
-
-
-
