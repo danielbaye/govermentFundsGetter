@@ -24,3 +24,10 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Docker build and push
+      with:
+            registry: registry.hub.docker.com
+            repository:  "danielbayevski/gov_funds_getter"
+            login: "${{ secrets.DOCKERHUB_USERNAME }}"
+            password: "${{ secrets.DOCKERHUB_PASSWORD }}"
